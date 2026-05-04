@@ -1,0 +1,85 @@
+{
+  "config": {
+    "input_file": "data\\crawl_health\\vnexpress_health_clean.jsonl",
+    "len_lo": 0.2,
+    "len_hi": 0.25,
+    "len_tol_lo": 0.18,
+    "len_tol_hi": 0.3,
+    "min_num_acc": 1.0,
+    "min_src_words": 250,
+    "max_src_words": 2500,
+    "seed": 42,
+    "ratios": [
+      0.8,
+      0.1,
+      0.1
+    ]
+  },
+  "raw_articles": 1422,
+  "after_filter": 979,
+  "splits": {
+    "train": {
+      "n": 780,
+      "avg_src_words": 679.87,
+      "avg_tgt_words": 159.94,
+      "avg_length_ratio": 0.2352,
+      "number_accuracy_1.0_count": 780,
+      "number_accuracy_1.0_pct": 100.0,
+      "length_compliance_count": 570,
+      "length_compliance_pct": 73.08,
+      "by_category": {
+        "song-khoe": 197,
+        "tin-tuc": 155,
+        "suc-khoe": 223,
+        "vaccine": 133,
+        "cac-benh": 72
+      },
+      "by_quality_tag": {
+        "high": 570,
+        "medium": 210
+      }
+    },
+    "val": {
+      "n": 94,
+      "avg_src_words": 683.13,
+      "avg_tgt_words": 158.95,
+      "avg_length_ratio": 0.234,
+      "number_accuracy_1.0_count": 94,
+      "number_accuracy_1.0_pct": 100.0,
+      "length_compliance_count": 70,
+      "length_compliance_pct": 74.47,
+      "by_category": {
+        "song-khoe": 24,
+        "suc-khoe": 27,
+        "cac-benh": 9,
+        "tin-tuc": 18,
+        "vaccine": 16
+      },
+      "by_quality_tag": {
+        "high": 70,
+        "medium": 24
+      }
+    },
+    "test": {
+      "n": 105,
+      "avg_src_words": 697.47,
+      "avg_tgt_words": 164.36,
+      "avg_length_ratio": 0.2378,
+      "number_accuracy_1.0_count": 105,
+      "number_accuracy_1.0_pct": 100.0,
+      "length_compliance_count": 75,
+      "length_compliance_pct": 71.43,
+      "by_category": {
+        "vaccine": 18,
+        "song-khoe": 26,
+        "suc-khoe": 30,
+        "cac-benh": 9,
+        "tin-tuc": 22
+      },
+      "by_quality_tag": {
+        "high": 75,
+        "medium": 30
+      }
+    }
+  }
+}

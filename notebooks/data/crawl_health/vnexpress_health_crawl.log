@@ -1,0 +1,450 @@
+2026-04-27 10:57:13,718 [INFO] ============================================================
+2026-04-27 10:57:13,721 [INFO] BƯỚC 1: Thu thập URL
+2026-04-27 10:57:13,722 [INFO] ============================================================
+2026-04-27 10:57:13,724 [INFO] 
+📂 suc-khoe
+2026-04-27 10:57:14,887 [INFO]   [suc-khoe] Page 1: +147 (tổng 50)
+2026-04-27 10:57:16,487 [INFO]   [suc-khoe] Page 2: +84 (tổng 78)
+2026-04-27 10:57:18,374 [INFO]   [suc-khoe] Page 3: +90 (tổng 108)
+2026-04-27 10:57:20,167 [INFO]   [suc-khoe] Page 4: +90 (tổng 138)
+2026-04-27 10:57:22,622 [INFO]   [suc-khoe] Page 5: +90 (tổng 168)
+2026-04-27 10:57:24,930 [INFO]   [suc-khoe] Page 6: +90 (tổng 198)
+2026-04-27 10:57:27,205 [INFO]   [suc-khoe] Page 7: +87 (tổng 227)
+2026-04-27 10:57:29,724 [INFO]   [suc-khoe] Page 8: +90 (tổng 257)
+2026-04-27 10:57:31,236 [INFO]   [suc-khoe] Page 9: +90 (tổng 287)
+2026-04-27 10:57:33,413 [INFO]   [suc-khoe] Page 10: +90 (tổng 317)
+2026-04-27 10:57:36,528 [INFO]   [suc-khoe] Page 11: +90 (tổng 347)
+2026-04-27 10:57:39,327 [INFO]   [suc-khoe] Page 12: +90 (tổng 377)
+2026-04-27 10:57:41,879 [INFO]   [suc-khoe] Page 13: +90 (tổng 407)
+2026-04-27 10:57:44,318 [INFO]   [suc-khoe] Page 14: +90 (tổng 437)
+2026-04-27 10:57:46,083 [INFO]   [suc-khoe] Page 15: +90 (tổng 467)
+2026-04-27 10:57:47,670 [INFO]   [suc-khoe] Page 16: +90 (tổng 497)
+2026-04-27 10:57:49,475 [INFO]   [suc-khoe] Page 17: +87 (tổng 526)
+2026-04-27 10:57:51,731 [INFO]   [suc-khoe] Page 18: +87 (tổng 555)
+2026-04-27 10:57:53,979 [INFO]   [suc-khoe] Page 19: +90 (tổng 585)
+2026-04-27 10:57:56,253 [INFO]   [suc-khoe] Page 20: +90 (tổng 615)
+2026-04-27 10:58:03,149 [INFO]   [suc-khoe] Hết bài tại page 22
+2026-04-27 10:58:03,155 [INFO]   ✓ +615 URL (tổng pool: 615)
+2026-04-27 10:58:03,155 [INFO] 
+📂 tin-tuc
+2026-04-27 10:58:04,351 [INFO]   [tin-tuc] Page 1: +90 (tổng 30)
+2026-04-27 10:58:06,893 [INFO]   [tin-tuc] Page 2: +90 (tổng 60)
+2026-04-27 10:58:09,332 [INFO]   [tin-tuc] Page 3: +90 (tổng 90)
+2026-04-27 10:58:12,052 [INFO]   [tin-tuc] Page 4: +90 (tổng 120)
+2026-04-27 10:58:14,445 [INFO]   [tin-tuc] Page 5: +90 (tổng 150)
+2026-04-27 10:58:16,715 [INFO]   [tin-tuc] Page 6: +90 (tổng 180)
+2026-04-27 10:58:18,322 [INFO]   [tin-tuc] Page 7: +90 (tổng 210)
+2026-04-27 10:58:20,887 [INFO]   [tin-tuc] Page 8: +90 (tổng 240)
+2026-04-27 10:58:22,931 [INFO]   [tin-tuc] Page 9: +90 (tổng 270)
+2026-04-27 10:58:25,041 [INFO]   [tin-tuc] Page 10: +90 (tổng 300)
+2026-04-27 10:58:27,503 [INFO]   [tin-tuc] Page 11: +90 (tổng 330)
+2026-04-27 10:58:29,890 [INFO]   [tin-tuc] Page 12: +90 (tổng 360)
+2026-04-27 10:58:31,644 [INFO]   [tin-tuc] Page 13: +90 (tổng 390)
+2026-04-27 10:58:33,998 [INFO]   [tin-tuc] Page 14: +90 (tổng 420)
+2026-04-27 10:58:36,357 [INFO]   [tin-tuc] Page 15: +90 (tổng 450)
+2026-04-27 10:58:38,724 [INFO]   [tin-tuc] Page 16: +90 (tổng 480)
+2026-04-27 10:58:40,820 [INFO]   [tin-tuc] Page 17: +90 (tổng 510)
+2026-04-27 10:58:42,841 [INFO]   [tin-tuc] Page 18: +90 (tổng 540)
+2026-04-27 10:58:45,182 [INFO]   [tin-tuc] Page 19: +90 (tổng 570)
+2026-04-27 10:58:47,847 [INFO]   [tin-tuc] Page 20: +90 (tổng 600)
+2026-04-27 10:58:53,506 [INFO]   [tin-tuc] Hết bài tại page 22
+2026-04-27 10:58:53,510 [INFO]   ✓ +600 URL (tổng pool: 983)
+2026-04-27 10:58:53,510 [INFO] 
+📂 tu-van
+2026-04-27 10:58:54,695 [INFO]   [tu-van] Page 1: +147 (tổng 50)
+2026-04-27 10:58:59,320 [INFO]   [tu-van] Hết bài tại page 3
+2026-04-27 10:58:59,322 [INFO]   ✓ +50 URL (tổng pool: 983)
+2026-04-27 10:58:59,322 [INFO] 
+📂 cac-benh
+2026-04-27 10:59:00,526 [INFO]   [cac-benh] Page 1: +69 (tổng 24)
+2026-04-27 10:59:02,922 [INFO]   [cac-benh] Page 2: +65 (tổng 46)
+2026-04-27 10:59:05,209 [INFO]   [cac-benh] Page 3: +69 (tổng 70)
+2026-04-27 10:59:06,715 [INFO]   [cac-benh] Page 4: +66 (tổng 93)
+2026-04-27 10:59:08,483 [INFO]   [cac-benh] Page 5: +69 (tổng 117)
+2026-04-27 10:59:10,173 [INFO]   [cac-benh] Page 6: +69 (tổng 141)
+2026-04-27 10:59:12,195 [INFO]   [cac-benh] Page 7: +69 (tổng 165)
+2026-04-27 10:59:14,515 [INFO]   [cac-benh] Page 8: +69 (tổng 189)
+2026-04-27 10:59:16,414 [INFO]   [cac-benh] Page 9: +69 (tổng 213)
+2026-04-27 10:59:18,162 [INFO]   [cac-benh] Page 10: +66 (tổng 236)
+2026-04-27 10:59:19,816 [INFO]   [cac-benh] Page 11: +66 (tổng 259)
+2026-04-27 10:59:22,762 [INFO]   [cac-benh] Page 12: +69 (tổng 283)
+2026-04-27 10:59:24,664 [INFO]   [cac-benh] Page 13: +69 (tổng 307)
+2026-04-27 10:59:26,323 [INFO]   [cac-benh] Page 14: +69 (tổng 331)
+2026-04-27 10:59:29,391 [INFO]   [cac-benh] Page 15: +69 (tổng 355)
+2026-04-27 10:59:31,642 [INFO]   [cac-benh] Page 16: +66 (tổng 378)
+2026-04-27 10:59:33,967 [INFO]   [cac-benh] Page 17: +69 (tổng 402)
+2026-04-27 10:59:36,338 [INFO]   [cac-benh] Page 18: +69 (tổng 426)
+2026-04-27 10:59:38,732 [INFO]   [cac-benh] Page 19: +66 (tổng 449)
+2026-04-27 10:59:40,790 [INFO]   [cac-benh] Page 20: +69 (tổng 473)
+2026-04-27 10:59:47,078 [INFO]   [cac-benh] Hết bài tại page 22
+2026-04-27 10:59:47,083 [INFO]   ✓ +473 URL (tổng pool: 1183)
+2026-04-27 10:59:47,083 [INFO] 
+📂 dinh-duong
+2026-04-27 10:59:48,143 [INFO]   [dinh-duong] Page 1: +147 (tổng 50)
+2026-04-27 10:59:53,388 [INFO]   [dinh-duong] Hết bài tại page 3
+2026-04-27 10:59:53,391 [INFO]   ✓ +50 URL (tổng pool: 1183)
+2026-04-27 10:59:53,391 [INFO] 
+📂 khoe-dep
+2026-04-27 10:59:54,794 [INFO]   [khoe-dep] Page 1: +147 (tổng 50)
+2026-04-27 10:59:59,242 [INFO]   [khoe-dep] Hết bài tại page 3
+2026-04-27 10:59:59,245 [INFO]   ✓ +50 URL (tổng pool: 1183)
+2026-04-27 10:59:59,246 [INFO] 
+📂 vaccine
+2026-04-27 11:00:00,013 [INFO]   [vaccine] Page 1: +34 (tổng 17)
+2026-04-27 11:00:03,396 [INFO]   [vaccine] Page 2: +34 (tổng 34)
+2026-04-27 11:00:05,729 [INFO]   [vaccine] Page 3: +34 (tổng 51)
+2026-04-27 11:00:07,909 [INFO]   [vaccine] Page 4: +34 (tổng 68)
+2026-04-27 11:00:09,771 [INFO]   [vaccine] Page 5: +34 (tổng 85)
+2026-04-27 11:00:11,564 [INFO]   [vaccine] Page 6: +34 (tổng 102)
+2026-04-27 11:00:14,141 [INFO]   [vaccine] Page 7: +34 (tổng 119)
+2026-04-27 11:00:16,005 [INFO]   [vaccine] Page 8: +34 (tổng 136)
+2026-04-27 11:00:17,822 [INFO]   [vaccine] Page 9: +34 (tổng 153)
+2026-04-27 11:00:20,456 [INFO]   [vaccine] Page 10: +34 (tổng 170)
+2026-04-27 11:00:22,317 [INFO]   [vaccine] Page 11: +34 (tổng 187)
+2026-04-27 11:00:25,451 [INFO]   [vaccine] Page 12: +34 (tổng 204)
+2026-04-27 11:00:28,189 [INFO]   [vaccine] Page 13: +34 (tổng 221)
+2026-04-27 11:00:29,916 [INFO]   [vaccine] Page 14: +34 (tổng 238)
+2026-04-27 11:00:31,776 [INFO]   [vaccine] Page 15: +34 (tổng 255)
+2026-04-27 11:00:34,133 [INFO]   [vaccine] Page 16: +34 (tổng 272)
+2026-04-27 11:00:36,082 [INFO]   [vaccine] Page 17: +34 (tổng 289)
+2026-04-27 11:00:38,306 [INFO]   [vaccine] Page 18: +34 (tổng 306)
+2026-04-27 11:00:40,006 [INFO]   [vaccine] Page 19: +34 (tổng 323)
+2026-04-27 11:00:42,806 [INFO]   [vaccine] Page 20: +34 (tổng 340)
+2026-04-27 11:00:50,422 [INFO]   [vaccine] Hết bài tại page 22
+2026-04-27 11:00:50,425 [INFO]   ✓ +340 URL (tổng pool: 1498)
+2026-04-27 11:00:50,426 [INFO] 
+📂 song-khoe
+2026-04-27 11:00:51,556 [INFO]   [song-khoe] Page 1: +90 (tổng 30)
+2026-04-27 11:00:53,643 [INFO]   [song-khoe] Page 2: +90 (tổng 60)
+2026-04-27 11:00:57,384 [INFO]   [song-khoe] Page 3: +90 (tổng 90)
+2026-04-27 11:00:59,719 [INFO]   [song-khoe] Page 4: +90 (tổng 120)
+2026-04-27 11:01:01,803 [INFO]   [song-khoe] Page 5: +90 (tổng 150)
+2026-04-27 11:01:04,118 [INFO]   [song-khoe] Page 6: +90 (tổng 180)
+2026-04-27 11:01:06,283 [INFO]   [song-khoe] Page 7: +90 (tổng 210)
+2026-04-27 11:01:07,942 [INFO]   [song-khoe] Page 8: +90 (tổng 240)
+2026-04-27 11:01:09,636 [INFO]   [song-khoe] Page 9: +90 (tổng 270)
+2026-04-27 11:01:12,007 [INFO]   [song-khoe] Page 10: +90 (tổng 300)
+2026-04-27 11:01:14,602 [INFO]   [song-khoe] Page 11: +90 (tổng 330)
+2026-04-27 11:01:16,842 [INFO]   [song-khoe] Page 12: +90 (tổng 360)
+2026-04-27 11:01:18,904 [INFO]   [song-khoe] Page 13: +90 (tổng 390)
+2026-04-27 11:01:21,213 [INFO]   [song-khoe] Page 14: +90 (tổng 420)
+2026-04-27 11:01:23,365 [INFO]   [song-khoe] Page 15: +90 (tổng 450)
+2026-04-27 11:01:25,315 [INFO]   [song-khoe] Page 16: +90 (tổng 480)
+2026-04-27 11:01:27,029 [INFO]   [song-khoe] Page 17: +90 (tổng 510)
+2026-04-27 11:01:28,934 [INFO]   [song-khoe] Page 18: +90 (tổng 540)
+2026-04-27 11:01:30,764 [INFO]   [song-khoe] Page 19: +90 (tổng 570)
+2026-04-27 11:01:32,745 [INFO]   [song-khoe] Page 20: +90 (tổng 600)
+2026-04-27 11:01:39,637 [INFO]   [song-khoe] Hết bài tại page 22
+2026-04-27 11:01:39,641 [INFO]   ✓ +600 URL (tổng pool: 2011)
+2026-04-27 11:01:39,641 [INFO] 
+Tổng URL pool: 2011
+2026-04-27 11:01:39,642 [INFO] ============================================================
+2026-04-27 11:01:39,642 [INFO] BƯỚC 2: Parse nội dung
+2026-04-27 11:01:39,642 [INFO] ============================================================
+2026-04-27 11:01:39,647 [INFO] Cần parse: 2011 URL
+2026-04-27 11:04:18,053 [INFO] Resume: đã có 41 bài
+2026-04-27 11:04:18,056 [INFO] ============================================================
+2026-04-27 11:04:18,058 [INFO] BƯỚC 1: Thu thập URL
+2026-04-27 11:04:18,059 [INFO] ============================================================
+2026-04-27 11:04:18,060 [INFO] 
+📂 suc-khoe
+2026-04-27 11:04:19,102 [INFO]   [suc-khoe] Page 1: +147 (tổng 50)
+2026-04-27 11:04:21,079 [INFO]   [suc-khoe] Page 2: +84 (tổng 78)
+2026-04-27 11:04:22,989 [INFO]   [suc-khoe] Page 3: +90 (tổng 108)
+2026-04-27 11:04:24,941 [INFO]   [suc-khoe] Page 4: +90 (tổng 138)
+2026-04-27 11:04:26,716 [INFO]   [suc-khoe] Page 5: +90 (tổng 168)
+2026-04-27 11:04:28,494 [INFO]   [suc-khoe] Page 6: +90 (tổng 198)
+2026-04-27 11:04:30,143 [INFO]   [suc-khoe] Page 7: +90 (tổng 228)
+2026-04-27 11:04:32,109 [INFO]   [suc-khoe] Page 8: +87 (tổng 257)
+2026-04-27 11:04:34,124 [INFO]   [suc-khoe] Page 9: +90 (tổng 287)
+2026-04-27 11:04:36,076 [INFO]   [suc-khoe] Page 10: +90 (tổng 317)
+2026-04-27 11:04:37,311 [INFO]   [suc-khoe] Page 11: +90 (tổng 347)
+2026-04-27 11:04:39,608 [INFO]   [suc-khoe] Page 12: +78 (tổng 373)
+2026-04-27 11:04:41,164 [INFO]   [suc-khoe] Page 13: +90 (tổng 403)
+2026-04-27 11:04:43,165 [INFO]   [suc-khoe] Page 14: +78 (tổng 429)
+2026-04-27 11:04:44,830 [INFO]   [suc-khoe] Page 15: +90 (tổng 459)
+2026-04-27 11:04:46,588 [INFO]   [suc-khoe] Page 16: +90 (tổng 489)
+2026-04-27 11:04:48,307 [INFO]   [suc-khoe] Page 17: +90 (tổng 519)
+2026-04-27 11:04:50,038 [INFO]   [suc-khoe] Page 18: +87 (tổng 548)
+2026-04-27 11:04:52,038 [INFO]   [suc-khoe] Page 19: +87 (tổng 577)
+2026-04-27 11:04:53,409 [INFO]   [suc-khoe] Page 20: +90 (tổng 607)
+2026-04-27 11:04:58,207 [INFO]   [suc-khoe] Hết bài tại page 22
+2026-04-27 11:04:58,211 [INFO]   ✓ +607 URL (tổng pool: 607)
+2026-04-27 11:04:58,211 [INFO] 
+📂 tin-tuc
+2026-04-27 11:04:59,330 [INFO]   [tin-tuc] Page 1: +90 (tổng 30)
+2026-04-27 11:05:00,686 [INFO]   [tin-tuc] Page 2: +90 (tổng 60)
+2026-04-27 11:05:01,997 [INFO]   [tin-tuc] Page 3: +90 (tổng 90)
+2026-04-27 11:05:04,153 [INFO]   [tin-tuc] Page 4: +90 (tổng 120)
+2026-04-27 11:05:05,534 [INFO]   [tin-tuc] Page 5: +90 (tổng 150)
+2026-04-27 11:05:06,951 [INFO]   [tin-tuc] Page 6: +90 (tổng 180)
+2026-04-27 11:05:09,017 [INFO]   [tin-tuc] Page 7: +90 (tổng 210)
+2026-04-27 11:05:11,229 [INFO]   [tin-tuc] Page 8: +90 (tổng 240)
+2026-04-27 11:05:13,195 [INFO]   [tin-tuc] Page 9: +90 (tổng 270)
+2026-04-27 11:05:15,151 [INFO]   [tin-tuc] Page 10: +90 (tổng 300)
+2026-04-27 11:05:17,257 [INFO]   [tin-tuc] Page 11: +90 (tổng 330)
+2026-04-27 11:05:18,863 [INFO]   [tin-tuc] Page 12: +90 (tổng 360)
+2026-04-27 11:05:21,039 [INFO]   [tin-tuc] Page 13: +90 (tổng 390)
+2026-04-27 11:05:23,388 [INFO]   [tin-tuc] Page 14: +90 (tổng 420)
+2026-04-27 11:05:24,819 [INFO]   [tin-tuc] Page 15: +90 (tổng 450)
+2026-04-27 11:05:26,764 [INFO]   [tin-tuc] Page 16: +90 (tổng 480)
+2026-04-27 11:05:29,184 [INFO]   [tin-tuc] Page 17: +90 (tổng 510)
+2026-04-27 11:05:30,931 [INFO]   [tin-tuc] Page 18: +90 (tổng 540)
+2026-04-27 11:05:32,856 [INFO]   [tin-tuc] Page 19: +90 (tổng 570)
+2026-04-27 11:05:34,149 [INFO]   [tin-tuc] Page 20: +90 (tổng 600)
+2026-04-27 11:05:38,947 [INFO]   [tin-tuc] Hết bài tại page 22
+2026-04-27 11:05:38,952 [INFO]   ✓ +600 URL (tổng pool: 982)
+2026-04-27 11:05:38,952 [INFO] 
+📂 tu-van
+2026-04-27 11:05:40,058 [INFO]   [tu-van] Page 1: +147 (tổng 50)
+2026-04-27 11:05:43,500 [INFO]   [tu-van] Hết bài tại page 3
+2026-04-27 11:05:43,503 [INFO]   ✓ +50 URL (tổng pool: 982)
+2026-04-27 11:05:43,504 [INFO] 
+📂 cac-benh
+2026-04-27 11:05:44,564 [INFO]   [cac-benh] Page 1: +69 (tổng 24)
+2026-04-27 11:05:46,226 [INFO]   [cac-benh] Page 2: +63 (tổng 46)
+2026-04-27 11:05:48,173 [INFO]   [cac-benh] Page 3: +69 (tổng 70)
+2026-04-27 11:05:49,937 [INFO]   [cac-benh] Page 4: +69 (tổng 94)
+2026-04-27 11:05:51,923 [INFO]   [cac-benh] Page 5: +67 (tổng 117)
+2026-04-27 11:05:53,267 [INFO]   [cac-benh] Page 6: +69 (tổng 141)
+2026-04-27 11:05:54,517 [INFO]   [cac-benh] Page 7: +69 (tổng 165)
+2026-04-27 11:05:56,395 [INFO]   [cac-benh] Page 8: +60 (tổng 185)
+2026-04-27 11:05:58,267 [INFO]   [cac-benh] Page 9: +69 (tổng 209)
+2026-04-27 11:06:00,126 [INFO]   [cac-benh] Page 10: +69 (tổng 233)
+2026-04-27 11:06:02,017 [INFO]   [cac-benh] Page 11: +63 (tổng 255)
+2026-04-27 11:06:03,406 [INFO]   [cac-benh] Page 12: +69 (tổng 279)
+2026-04-27 11:06:05,424 [INFO]   [cac-benh] Page 13: +60 (tổng 299)
+2026-04-27 11:06:06,543 [INFO]   [cac-benh] Page 14: +69 (tổng 323)
+2026-04-27 11:06:08,656 [INFO]   [cac-benh] Page 15: +60 (tổng 343)
+2026-04-27 11:06:10,976 [INFO]   [cac-benh] Page 16: +66 (tổng 366)
+2026-04-27 11:06:12,309 [INFO]   [cac-benh] Page 17: +69 (tổng 390)
+2026-04-27 11:06:14,506 [INFO]   [cac-benh] Page 18: +60 (tổng 410)
+2026-04-27 11:06:16,429 [INFO]   [cac-benh] Page 19: +66 (tổng 433)
+2026-04-27 11:06:18,358 [INFO]   [cac-benh] Page 20: +69 (tổng 457)
+2026-04-27 11:06:23,155 [INFO]   [cac-benh] Hết bài tại page 22
+2026-04-27 11:06:23,158 [INFO]   ✓ +457 URL (tổng pool: 1172)
+2026-04-27 11:06:23,158 [INFO] 
+📂 dinh-duong
+2026-04-27 11:06:24,357 [INFO]   [dinh-duong] Page 1: +147 (tổng 50)
+2026-04-27 11:06:27,832 [INFO]   [dinh-duong] Hết bài tại page 3
+2026-04-27 11:06:27,836 [INFO]   ✓ +50 URL (tổng pool: 1172)
+2026-04-27 11:06:27,836 [INFO] 
+📂 khoe-dep
+2026-04-27 11:06:29,011 [INFO]   [khoe-dep] Page 1: +147 (tổng 50)
+2026-04-27 11:06:32,238 [INFO]   [khoe-dep] Hết bài tại page 3
+2026-04-27 11:06:32,241 [INFO]   ✓ +50 URL (tổng pool: 1172)
+2026-04-27 11:06:32,241 [INFO] 
+📂 vaccine
+2026-04-27 11:06:33,586 [INFO]   [vaccine] Page 1: +34 (tổng 17)
+2026-04-27 11:06:35,469 [INFO]   [vaccine] Page 2: +34 (tổng 34)
+2026-04-27 11:06:37,777 [INFO]   [vaccine] Page 3: +34 (tổng 51)
+2026-04-27 11:06:39,666 [INFO]   [vaccine] Page 4: +34 (tổng 68)
+2026-04-27 11:06:41,476 [INFO]   [vaccine] Page 5: +34 (tổng 85)
+2026-04-27 11:06:43,481 [INFO]   [vaccine] Page 6: +34 (tổng 102)
+2026-04-27 11:06:45,760 [INFO]   [vaccine] Page 7: +34 (tổng 119)
+2026-04-27 11:06:47,612 [INFO]   [vaccine] Page 8: +34 (tổng 136)
+2026-04-27 11:06:49,028 [INFO]   [vaccine] Page 9: +34 (tổng 153)
+2026-04-27 11:06:51,123 [INFO]   [vaccine] Page 10: +34 (tổng 170)
+2026-04-27 11:06:53,571 [INFO]   [vaccine] Page 11: +34 (tổng 187)
+2026-04-27 11:06:55,676 [INFO]   [vaccine] Page 12: +34 (tổng 204)
+2026-04-27 11:06:56,646 [INFO]   [vaccine] Page 13: +34 (tổng 221)
+2026-04-27 11:06:58,775 [INFO]   [vaccine] Page 14: +34 (tổng 238)
+2026-04-27 11:07:00,876 [INFO]   [vaccine] Page 15: +34 (tổng 255)
+2026-04-27 11:07:02,748 [INFO]   [vaccine] Page 16: +34 (tổng 272)
+2026-04-27 11:07:05,211 [INFO]   [vaccine] Page 17: +34 (tổng 289)
+2026-04-27 11:07:07,286 [INFO]   [vaccine] Page 18: +34 (tổng 306)
+2026-04-27 11:07:08,523 [INFO]   [vaccine] Page 19: +34 (tổng 323)
+2026-04-27 11:07:10,386 [INFO]   [vaccine] Page 20: +34 (tổng 340)
+2026-04-27 11:07:16,490 [INFO]   [vaccine] Hết bài tại page 22
+2026-04-27 11:07:16,496 [INFO]   ✓ +340 URL (tổng pool: 1487)
+2026-04-27 11:07:16,496 [INFO] 
+📂 song-khoe
+2026-04-27 11:07:17,541 [INFO]   [song-khoe] Page 1: +90 (tổng 30)
+2026-04-27 11:07:19,205 [INFO]   [song-khoe] Page 2: +90 (tổng 60)
+2026-04-27 11:07:20,613 [INFO]   [song-khoe] Page 3: +90 (tổng 90)
+2026-04-27 11:07:22,676 [INFO]   [song-khoe] Page 4: +90 (tổng 120)
+2026-04-27 11:07:24,388 [INFO]   [song-khoe] Page 5: +90 (tổng 150)
+2026-04-27 11:07:26,787 [INFO]   [song-khoe] Page 6: +90 (tổng 180)
+2026-04-27 11:07:28,582 [INFO]   [song-khoe] Page 7: +90 (tổng 210)
+2026-04-27 11:07:30,871 [INFO]   [song-khoe] Page 8: +90 (tổng 240)
+2026-04-27 11:07:32,947 [INFO]   [song-khoe] Page 9: +90 (tổng 270)
+2026-04-27 11:07:34,314 [INFO]   [song-khoe] Page 10: +90 (tổng 300)
+2026-04-27 11:07:36,570 [INFO]   [song-khoe] Page 11: +90 (tổng 330)
+2026-04-27 11:07:38,745 [INFO]   [song-khoe] Page 12: +90 (tổng 360)
+2026-04-27 11:07:40,493 [INFO]   [song-khoe] Page 13: +90 (tổng 390)
+2026-04-27 11:07:41,914 [INFO]   [song-khoe] Page 14: +90 (tổng 420)
+2026-04-27 11:07:43,786 [INFO]   [song-khoe] Page 15: +90 (tổng 450)
+2026-04-27 11:07:45,853 [INFO]   [song-khoe] Page 16: +90 (tổng 480)
+2026-04-27 11:07:47,936 [INFO]   [song-khoe] Page 17: +90 (tổng 510)
+2026-04-27 11:07:49,437 [INFO]   [song-khoe] Page 18: +90 (tổng 540)
+2026-04-27 11:07:51,568 [INFO]   [song-khoe] Page 19: +90 (tổng 570)
+2026-04-27 11:07:53,834 [INFO]   [song-khoe] Page 20: +90 (tổng 600)
+2026-04-27 11:07:58,902 [INFO]   [song-khoe] Hết bài tại page 22
+2026-04-27 11:07:58,902 [INFO]   ✓ +600 URL (tổng pool: 2002)
+2026-04-27 11:07:58,902 [INFO] 
+Tổng URL pool: 2002
+2026-04-27 11:07:58,902 [INFO] ============================================================
+2026-04-27 11:07:58,902 [INFO] BƯỚC 2: Parse nội dung
+2026-04-27 11:07:58,902 [INFO] ============================================================
+2026-04-27 11:07:58,917 [INFO] Cần parse: 1961 URL
+2026-04-27 11:10:36,124 [INFO]   ✓ 100 bài
+2026-04-27 11:13:15,395 [INFO] Resume: đã có 118 bài
+2026-04-27 11:13:15,397 [INFO] ============================================================
+2026-04-27 11:13:15,399 [INFO] BƯỚC 1: Thu thập URL
+2026-04-27 11:13:15,400 [INFO] ============================================================
+2026-04-27 11:13:15,401 [INFO] 
+📂 suc-khoe
+2026-04-27 11:13:16,533 [INFO]   [suc-khoe] Page 1: +147 (tổng 50)
+2026-04-27 11:13:17,585 [INFO]   [suc-khoe] Page 2: +84 (tổng 78)
+2026-04-27 11:13:18,932 [INFO]   [suc-khoe] Page 3: +90 (tổng 108)
+2026-04-27 11:13:20,070 [INFO]   [suc-khoe] Page 4: +90 (tổng 138)
+2026-04-27 11:13:21,555 [INFO]   [suc-khoe] Page 5: +90 (tổng 168)
+2026-04-27 11:13:22,901 [INFO]   [suc-khoe] Page 6: +90 (tổng 198)
+2026-04-27 11:13:24,116 [INFO]   [suc-khoe] Page 7: +90 (tổng 228)
+2026-04-27 11:13:26,273 [INFO]   [suc-khoe] Page 8: +87 (tổng 257)
+2026-04-27 11:13:28,352 [INFO]   [suc-khoe] Page 9: +90 (tổng 287)
+2026-04-27 11:13:29,888 [INFO]   [suc-khoe] Page 10: +90 (tổng 317)
+2026-04-27 11:13:32,128 [INFO]   [suc-khoe] Page 11: +90 (tổng 347)
+2026-04-27 11:13:33,607 [INFO]   [suc-khoe] Page 12: +90 (tổng 377)
+2026-04-27 11:13:35,894 [INFO]   [suc-khoe] Page 13: +90 (tổng 407)
+2026-04-27 11:13:37,760 [INFO]   [suc-khoe] Page 14: +90 (tổng 437)
+2026-04-27 11:13:39,313 [INFO]   [suc-khoe] Page 15: +90 (tổng 467)
+2026-04-27 11:13:40,895 [INFO]   [suc-khoe] Page 16: +90 (tổng 497)
+2026-04-27 11:13:42,478 [INFO]   [suc-khoe] Page 17: +90 (tổng 527)
+2026-04-27 11:13:44,537 [INFO]   [suc-khoe] Page 18: +87 (tổng 556)
+2026-04-27 11:13:46,138 [INFO]   [suc-khoe] Page 19: +87 (tổng 585)
+2026-04-27 11:13:47,975 [INFO]   [suc-khoe] Page 20: +90 (tổng 615)
+2026-04-27 11:13:53,322 [INFO]   [suc-khoe] Hết bài tại page 22
+2026-04-27 11:13:53,322 [INFO]   ✓ +615 URL (tổng pool: 615)
+2026-04-27 11:13:53,322 [INFO] 
+📂 tin-tuc
+2026-04-27 11:13:54,292 [INFO]   [tin-tuc] Page 1: +90 (tổng 30)
+2026-04-27 11:13:55,936 [INFO]   [tin-tuc] Page 2: +90 (tổng 60)
+2026-04-27 11:13:57,673 [INFO]   [tin-tuc] Page 3: +90 (tổng 90)
+2026-04-27 11:13:59,334 [INFO]   [tin-tuc] Page 4: +90 (tổng 120)
+2026-04-27 11:14:00,874 [INFO]   [tin-tuc] Page 5: +90 (tổng 150)
+2026-04-27 11:14:02,219 [INFO]   [tin-tuc] Page 6: +90 (tổng 180)
+2026-04-27 11:14:03,690 [INFO]   [tin-tuc] Page 7: +90 (tổng 210)
+2026-04-27 11:14:05,760 [INFO]   [tin-tuc] Page 8: +90 (tổng 240)
+2026-04-27 11:14:07,459 [INFO]   [tin-tuc] Page 9: +90 (tổng 270)
+2026-04-27 11:14:08,867 [INFO]   [tin-tuc] Page 10: +90 (tổng 300)
+2026-04-27 11:14:10,192 [INFO]   [tin-tuc] Page 11: +90 (tổng 330)
+2026-04-27 11:14:12,231 [INFO]   [tin-tuc] Page 12: +90 (tổng 360)
+2026-04-27 11:14:13,487 [INFO]   [tin-tuc] Page 13: +90 (tổng 390)
+2026-04-27 11:14:14,635 [INFO]   [tin-tuc] Page 14: +90 (tổng 420)
+2026-04-27 11:14:16,792 [INFO]   [tin-tuc] Page 15: +90 (tổng 450)
+2026-04-27 11:14:18,333 [INFO]   [tin-tuc] Page 16: +90 (tổng 480)
+2026-04-27 11:14:19,863 [INFO]   [tin-tuc] Page 17: +90 (tổng 510)
+2026-04-27 11:14:21,088 [INFO]   [tin-tuc] Page 18: +90 (tổng 540)
+2026-04-27 11:14:22,415 [INFO]   [tin-tuc] Page 19: +90 (tổng 570)
+2026-04-27 11:14:23,984 [INFO]   [tin-tuc] Page 20: +90 (tổng 600)
+2026-04-27 11:14:28,770 [INFO]   [tin-tuc] Hết bài tại page 22
+2026-04-27 11:14:28,774 [INFO]   ✓ +600 URL (tổng pool: 986)
+2026-04-27 11:14:28,774 [INFO] 
+📂 tu-van
+2026-04-27 11:14:29,989 [INFO]   [tu-van] Page 1: +147 (tổng 50)
+2026-04-27 11:14:33,321 [INFO]   [tu-van] Hết bài tại page 3
+2026-04-27 11:14:33,322 [INFO]   ✓ +50 URL (tổng pool: 986)
+2026-04-27 11:14:33,322 [INFO] 
+📂 cac-benh
+2026-04-27 11:14:34,450 [INFO]   [cac-benh] Page 1: +69 (tổng 24)
+2026-04-27 11:14:36,459 [INFO]   [cac-benh] Page 2: +63 (tổng 46)
+2026-04-27 11:14:37,738 [INFO]   [cac-benh] Page 3: +69 (tổng 70)
+2026-04-27 11:14:39,099 [INFO]   [cac-benh] Page 4: +69 (tổng 94)
+2026-04-27 11:14:40,518 [INFO]   [cac-benh] Page 5: +67 (tổng 117)
+2026-04-27 11:14:42,317 [INFO]   [cac-benh] Page 6: +69 (tổng 141)
+2026-04-27 11:14:44,365 [INFO]   [cac-benh] Page 7: +69 (tổng 165)
+2026-04-27 11:14:46,134 [INFO]   [cac-benh] Page 8: +69 (tổng 189)
+2026-04-27 11:14:47,395 [INFO]   [cac-benh] Page 9: +69 (tổng 213)
+2026-04-27 11:14:49,539 [INFO]   [cac-benh] Page 10: +69 (tổng 237)
+2026-04-27 11:14:51,152 [INFO]   [cac-benh] Page 11: +63 (tổng 259)
+2026-04-27 11:14:53,473 [INFO]   [cac-benh] Page 12: +69 (tổng 283)
+2026-04-27 11:14:54,854 [INFO]   [cac-benh] Page 13: +69 (tổng 307)
+2026-04-27 11:14:57,225 [INFO]   [cac-benh] Page 14: +69 (tổng 331)
+2026-04-27 11:14:58,586 [INFO]   [cac-benh] Page 15: +69 (tổng 355)
+2026-04-27 11:15:00,383 [INFO]   [cac-benh] Page 16: +66 (tổng 378)
+2026-04-27 11:15:01,779 [INFO]   [cac-benh] Page 17: +69 (tổng 402)
+2026-04-27 11:15:02,949 [INFO]   [cac-benh] Page 18: +60 (tổng 422)
+2026-04-27 11:15:04,514 [INFO]   [cac-benh] Page 19: +66 (tổng 445)
+2026-04-27 11:15:05,756 [INFO]   [cac-benh] Page 20: +69 (tổng 469)
+2026-04-27 11:15:10,509 [INFO]   [cac-benh] Hết bài tại page 22
+2026-04-27 11:15:10,512 [INFO]   ✓ +469 URL (tổng pool: 1179)
+2026-04-27 11:15:10,512 [INFO] 
+📂 dinh-duong
+2026-04-27 11:15:11,858 [INFO]   [dinh-duong] Page 1: +147 (tổng 50)
+2026-04-27 11:15:16,067 [INFO]   [dinh-duong] Hết bài tại page 3
+2026-04-27 11:15:16,070 [INFO]   ✓ +50 URL (tổng pool: 1179)
+2026-04-27 11:15:16,070 [INFO] 
+📂 khoe-dep
+2026-04-27 11:15:17,286 [INFO]   [khoe-dep] Page 1: +147 (tổng 50)
+2026-04-27 11:15:20,624 [INFO]   [khoe-dep] Hết bài tại page 3
+2026-04-27 11:15:20,626 [INFO]   ✓ +50 URL (tổng pool: 1179)
+2026-04-27 11:15:20,626 [INFO] 
+📂 vaccine
+2026-04-27 11:15:21,458 [INFO]   [vaccine] Page 1: +34 (tổng 17)
+2026-04-27 11:15:22,546 [INFO]   [vaccine] Page 2: +34 (tổng 34)
+2026-04-27 11:15:23,740 [INFO]   [vaccine] Page 3: +34 (tổng 51)
+2026-04-27 11:15:25,212 [INFO]   [vaccine] Page 4: +34 (tổng 68)
+2026-04-27 11:15:26,566 [INFO]   [vaccine] Page 5: +34 (tổng 85)
+2026-04-27 11:15:27,924 [INFO]   [vaccine] Page 6: +34 (tổng 102)
+2026-04-27 11:15:29,346 [INFO]   [vaccine] Page 7: +34 (tổng 119)
+2026-04-27 11:15:30,729 [INFO]   [vaccine] Page 8: +34 (tổng 136)
+2026-04-27 11:15:32,091 [INFO]   [vaccine] Page 9: +34 (tổng 153)
+2026-04-27 11:15:33,215 [INFO]   [vaccine] Page 10: +34 (tổng 170)
+2026-04-27 11:15:34,711 [INFO]   [vaccine] Page 11: +34 (tổng 187)
+2026-04-27 11:15:35,895 [INFO]   [vaccine] Page 12: +34 (tổng 204)
+2026-04-27 11:15:37,860 [INFO]   [vaccine] Page 13: +34 (tổng 221)
+2026-04-27 11:15:39,295 [INFO]   [vaccine] Page 14: +34 (tổng 238)
+2026-04-27 11:15:41,106 [INFO]   [vaccine] Page 15: +34 (tổng 255)
+2026-04-27 11:15:42,320 [INFO]   [vaccine] Page 16: +34 (tổng 272)
+2026-04-27 11:15:43,411 [INFO]   [vaccine] Page 17: +34 (tổng 289)
+2026-04-27 11:15:45,380 [INFO]   [vaccine] Page 18: +34 (tổng 306)
+2026-04-27 11:15:47,361 [INFO]   [vaccine] Page 19: +34 (tổng 323)
+2026-04-27 11:15:48,859 [INFO]   [vaccine] Page 20: +34 (tổng 340)
+2026-04-27 11:15:54,317 [INFO]   [vaccine] Hết bài tại page 22
+2026-04-27 11:15:54,320 [INFO]   ✓ +340 URL (tổng pool: 1494)
+2026-04-27 11:15:54,320 [INFO] 
+📂 song-khoe
+2026-04-27 11:15:55,499 [INFO]   [song-khoe] Page 1: +90 (tổng 30)
+2026-04-27 11:15:56,708 [INFO]   [song-khoe] Page 2: +90 (tổng 60)
+2026-04-27 11:15:58,933 [INFO]   [song-khoe] Page 3: +90 (tổng 90)
+2026-04-27 11:16:00,992 [INFO]   [song-khoe] Page 4: +90 (tổng 120)
+2026-04-27 11:16:03,034 [INFO]   [song-khoe] Page 5: +90 (tổng 150)
+2026-04-27 11:16:05,287 [INFO]   [song-khoe] Page 6: +90 (tổng 180)
+2026-04-27 11:16:06,532 [INFO]   [song-khoe] Page 7: +90 (tổng 210)
+2026-04-27 11:16:07,881 [INFO]   [song-khoe] Page 8: +90 (tổng 240)
+2026-04-27 11:16:09,055 [INFO]   [song-khoe] Page 9: +90 (tổng 270)
+2026-04-27 11:16:10,863 [INFO]   [song-khoe] Page 10: +90 (tổng 300)
+2026-04-27 11:16:12,462 [INFO]   [song-khoe] Page 11: +90 (tổng 330)
+2026-04-27 11:16:13,742 [INFO]   [song-khoe] Page 12: +90 (tổng 360)
+2026-04-27 11:16:15,841 [INFO]   [song-khoe] Page 13: +90 (tổng 390)
+2026-04-27 11:16:17,743 [INFO]   [song-khoe] Page 14: +90 (tổng 420)
+2026-04-27 11:16:19,287 [INFO]   [song-khoe] Page 15: +90 (tổng 450)
+2026-04-27 11:16:20,882 [INFO]   [song-khoe] Page 16: +90 (tổng 480)
+2026-04-27 11:16:23,059 [INFO]   [song-khoe] Page 17: +90 (tổng 510)
+2026-04-27 11:16:24,403 [INFO]   [song-khoe] Page 18: +90 (tổng 540)
+2026-04-27 11:16:25,840 [INFO]   [song-khoe] Page 19: +90 (tổng 570)
+2026-04-27 11:16:27,312 [INFO]   [song-khoe] Page 20: +90 (tổng 600)
+2026-04-27 11:16:32,118 [INFO]   [song-khoe] Hết bài tại page 22
+2026-04-27 11:16:32,118 [INFO]   ✓ +600 URL (tổng pool: 2007)
+2026-04-27 11:16:32,118 [INFO] 
+Tổng URL pool: 2007
+2026-04-27 11:16:32,118 [INFO] ============================================================
+2026-04-27 11:16:32,118 [INFO] BƯỚC 2: Parse nội dung
+2026-04-27 11:16:32,118 [INFO] ============================================================
+2026-04-27 11:16:32,118 [INFO] Cần parse: 1889 URL
+2026-04-27 11:18:46,878 [INFO]   crawled 200 articles
+2026-04-27 11:20:39,024 [INFO]   crawled 300 articles
+2026-04-27 11:22:34,268 [INFO]   crawled 400 articles
+2026-04-27 11:24:07,306 [INFO]   crawled 500 articles
+2026-04-27 11:25:30,225 [INFO]   crawled 600 articles
+2026-04-27 11:26:49,033 [INFO]   crawled 700 articles
+2026-04-27 11:28:55,114 [INFO]   crawled 800 articles
+2026-04-27 11:30:45,034 [INFO]   crawled 900 articles
+2026-04-27 11:32:14,464 [INFO]   crawled 1000 articles
+2026-04-27 11:33:35,659 [INFO]   crawled 1100 articles
+2026-04-27 11:35:21,115 [INFO]   crawled 1200 articles
+2026-04-27 11:37:25,237 [INFO]   crawled 1300 articles
+2026-04-27 11:39:28,007 [INFO]   crawled 1400 articles
+2026-04-27 11:40:01,922 [INFO] ============================================================
+2026-04-27 11:40:01,922 [INFO] Done: 1429 articles | Skipped: 578
