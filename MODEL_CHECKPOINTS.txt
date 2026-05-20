@@ -4,7 +4,7 @@ BARTPho:
 https://drive.google.com/drive/folders/1bj8wnZAHj53VYgJeIAgAl3SENBDY0u8j?usp=sharing
 
 ViT5_Base:
-https://drive.google.com/drive/folders/1e6xW8snK3GFxrJQyz8uuP0HoARCk1za3?usp=sharing
+https://drive.google.com/drive/folders/1aTUlU9HsD-uy3oJrJXWmz_78dXNBpfhG?usp=sharing
 
 ViT5_Checkpoint:
 https://drive.google.com/drive/folders/1JtzJXYVKgRXy0i6AdhM69A4D4TCusT9M?usp=drive_link
