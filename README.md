@@ -47,8 +47,6 @@ Hệ thống được triển khai theo hướng thực nghiệm nhiều giai đ
 │   └── gradio_comparision/
 │       ├── gradio_compare_stage2_vit5_vs_bartpho.ipynb
 │       └── gradio_compare_stage3_ppo_vs_stage2_sft.ipynb
-├── UI/
-│   └── demo_app.py
 ├── 52300115_52300138_52300143.docx
 ├── NLP_Final.pptx
 └── README.md
@@ -86,25 +84,21 @@ Các notebook Gradio hiện được thiết kế để tự dò checkpoint trê
 /content/drive/MyDrive/NLP_Final/ViT5_stage_3/runs/ppo_run/best_model
 ```
 
-Nếu lưu checkpoint trong thư mục local `MODEL_CHECKPOINTS`, có thể dùng cấu trúc gợi ý sau và sửa trực tiếp biến path trong notebook Gradio:
+Thông tin Drive chứa checkpoint được tổng hợp trong file `MODEL_CHECKPOINTS.txt`:
 
-```text
-MODEL_CHECKPOINTS/
-├── vit5_stage2/
-│   └── best_model/
-├── bartpho_stage2/
-│   └── best_model/
-└── vit5_stage3_ppo/
-    └── best_model/
-```
+| Nhóm model | Link Drive |
+|---|---|
+| BARTpho | https://drive.google.com/drive/folders/1bj8wnZAHj53VYgJeIAgAl3SENBDY0u8j?usp=sharing |
+| ViT5-base | https://drive.google.com/drive/folders/1aTUlU9HsD-uy3oJrJXWmz_78dXNBpfhG?usp=sharing |
+| ViT5 checkpoint | https://drive.google.com/drive/folders/1JtzJXYVKgRXy0i6AdhM69A4D4TCusT9M?usp=drive_link |
 
-Khi đó các biến có thể được chỉnh thành:
+Toàn bộ hệ thống được xây dựng và chạy trên Google Colab. Khi chạy notebook Gradio, cần mount Google Drive trước, sau đó kiểm tra lại các biến đường dẫn model. Nếu notebook tự dò sai vị trí checkpoint, chỉnh trực tiếp các biến sau để trỏ tới thư mục checkpoint tương ứng trên Drive:
 
 ```python
-VIT5_MODEL_DIR = PROJECT_ROOT / "MODEL_CHECKPOINTS" / "vit5_stage2" / "best_model"
-BARTPHO_MODEL_DIR = PROJECT_ROOT / "MODEL_CHECKPOINTS" / "bartpho_stage2" / "best_model"
-STAGE2_MODEL_DIR = PROJECT_ROOT / "MODEL_CHECKPOINTS" / "vit5_stage2" / "best_model"
-STAGE3_MODEL_DIR = PROJECT_ROOT / "MODEL_CHECKPOINTS" / "vit5_stage3_ppo" / "best_model"
+VIT5_MODEL_DIR = "/content/drive/MyDrive/<duong_dan_checkpoint_vit5_stage2>"
+BARTPHO_MODEL_DIR = "/content/drive/MyDrive/<duong_dan_checkpoint_bartpho_stage2>"
+STAGE2_MODEL_DIR = "/content/drive/MyDrive/<duong_dan_checkpoint_vit5_stage2>"
+STAGE3_MODEL_DIR = "/content/drive/MyDrive/<duong_dan_checkpoint_vit5_stage3_ppo>"
 ```
 
 Mỗi checkpoint hợp lệ cần có tối thiểu:
@@ -125,7 +119,7 @@ Các notebook comparison nằm tại:
 notebooks/gradio_comparision/
 ```
 
-Nên chạy trên **Google Colab GPU** để tốc độ sinh tóm tắt ổn định hơn. Nếu chạy CPU, thời gian generate có thể tăng đáng kể vì mỗi lần so sánh phải chạy hai mô hình seq2seq.
+Toàn bộ phần so sánh được chạy trên **Google Colab**, khuyến nghị dùng runtime GPU để tốc độ sinh tóm tắt ổn định hơn. Không cần khởi tạo môi trường ngoài Colab.
 
 ### 1. So sánh ViT5 Stage 2 và BARTpho Stage 2
 
@@ -203,7 +197,7 @@ Ghi chú quan trọng:
 
 ## Cài đặt môi trường khuyến nghị
 
-Các notebook chủ yếu chạy trên Colab. Môi trường khuyến nghị:
+Các notebook được thiết kế để chạy trên Google Colab. Môi trường khuyến nghị:
 
 ```text
 Python 3.10+
@@ -229,4 +223,3 @@ Tùy notebook, một số package có thể đã được cài sẵn hoặc đư
 - Stage 2 có thêm Number-Aware Re-ranking ở giai đoạn suy diễn để chọn candidate tốt hơn.
 - Stage 3 PPO dùng Actor/Reference model, reward thủ công và KL penalty để giảm rủi ro hallucination số liệu.
 - Kết quả hiện tại cho thấy SFT + Re-ranking cân bằng tốt nhất về tổng thể, còn PPO có ưu thế chuyên biệt ở tiêu chí giảm Number Hallucination.
-
