@@ -1,0 +1,14 @@
+{
+  "accepted": 25,
+  "attempted": 30,
+  "stop_reason": "page_limit",
+  "publishers": {
+    "Sức khỏe & Đời sống": 25
+  },
+  "requests": 37,
+  "downloaded_bytes": 4677940,
+  "rejections": {
+    "insufficient_health_content": 4,
+    "commercial_content": 1
+  }
+}

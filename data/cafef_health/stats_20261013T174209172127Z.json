@@ -1,0 +1,22 @@
+{
+  "run_id": "20261013T174209172127Z",
+  "listing": "https://cafef.vn/song/suc-khoe.chn",
+  "zone_id": "188125",
+  "max_articles": 100,
+  "attempted_total": 100,
+  "accepted_total": 99,
+  "accepted_this_run": 99,
+  "listing_pages_this_run": 7,
+  "requests_this_run": 108,
+  "downloaded_bytes_this_run": 11968930,
+  "stop_reason": "article_limit_reached",
+  "min_pub_date": "2023-03-13T21:36:00+07:00",
+  "max_pub_date": "2026-08-14T11:33:00+07:00",
+  "min_words": 472,
+  "max_words": 1393,
+  "rejection_counts": {
+    "insufficient_health_content": 1
+  },
+  "summary_labels_created": false,
+  "train_val_test_created": false
+}

@@ -1,0 +1,13 @@
+# Run logs and probe pages
+outputs/
+
+# Crawled article text is not redistributed (robots.txt does not grant reuse rights).
+# Reports, stats, manifests-as-JSON and READMEs under data/ stay tracked.
+data/**/*.jsonl
+data/**/review.html
+data/**/robots_*.txt
+data/**/*_robots_*.txt
+
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

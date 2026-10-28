@@ -1,0 +1,17 @@
+{
+  "accepted": 901,
+  "attempted": 1060,
+  "stop_reason": "target_reached",
+  "publishers": {
+    "Sức khỏe & Đời sống": 670,
+    "Tuổi Trẻ": 231
+  },
+  "requests": 1082,
+  "downloaded_bytes": 245774385,
+  "rejections": {
+    "insufficient_health_content": 123,
+    "commercial_content": 20,
+    "word_count_outside_limits": 11,
+    "parse_or_fetch_error": 5
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "input_records": 1000,
+  "retained": 995,
+  "rejected": 5,
+  "publishers": {
+    "CafeF": 95,
+    "Sức khỏe & Đời sống": 669,
+    "Tuổi Trẻ": 231
+  },
+  "split_counts": {
+    "train": 795,
+    "test": 100,
+    "val": 100
+  },
+  "publisher_by_split": {
+    "train": {
+      "CafeF": 77,
+      "Sức khỏe & Đời sống": 524,
+      "Tuổi Trẻ": 194
+    },
+    "val": {
+      "CafeF": 9,
+      "Sức khỏe & Đời sống": 78,
+      "Tuổi Trẻ": 13
+    },
+    "test": {
+      "CafeF": 9,
+      "Sức khỏe & Đời sống": 67,
+      "Tuổi Trẻ": 24
+    }
+  },
+  "publication_years": {
+    "2023": 49,
+    "2024": 43,
+    "2026": 903
+  },
+  "topic_keyword_evidence": {
+    "sức khỏe": 720,
+    "bác sĩ": 574,
+    "bệnh viện": 256,
+    "dinh dưỡng": 453,
+    "tim mạch": 333,
+    "giấc ngủ": 147,
+    "tập thể dục": 56,
+    "vitamin": 302,
+    "béo phì": 156,
+    "tiêu hóa": 342,
+    "thực phẩm": 506,
+    "lão hóa": 100,
+    "huyết áp": 289,
+    "dưỡng chất": 165,
+    "mất ngủ": 45,
+    "sức khoẻ": 15,
+    "ung thư": 220,
+    "ngộ độc": 42,
+    "thuốc độc": 1,
+    "tiểu đường": 86,
+    "đường huyết": 260,
+    "bệnh nhân": 199,
+    "trường thọ": 12,
+    "điều trị": 543,
+    "giảm cân": 99,
+    "cholesterol": 133,
+    "nhiễm trùng": 128,
+    "xương khớp": 80,
+    "suy thận": 51,
+    "đột quỵ": 105,
+    "tuổi thọ": 49,
+    "chữa bệnh": 76,
+    "miễn dịch": 211,
+    "sống thọ": 16,
+    "đau dạ dày": 12,
+    "gan nhiễm mỡ": 30,
+    "vaccine": 34,
+    "vắc xin": 14
+  },
+  "independent_groups": 993,
+  "duplicate_links": 5,
+  "near_copy_records": 1,
+  "flags": {
+    "author_unavailable": 164,
+    "no_external_reference_link": 966,
+    "strong_health_claim_needs_review": 28,
+    "check_context_and_attribution": 234,
+    "omitted_caveat_check_before_approval": 680,
+    "question_headline_check_answer_coverage": 287,
+    "sapo_number_not_in_body": 31,
+    "draft_length": 2
+  },
+  "words": {
+    "min": 254,
+    "median": 884,
+    "mean": 890.0563,
+    "max": 1848
+  },
+  "draft_ratio": {
+    "min": 0.17329545454545456,
+    "median": 0.22033898305084745,
+    "mean": 0.2212,
+    "max": 0.25
+  },
+  "input_hashes": {
+    "data\\cafef_health\\articles.jsonl": "aa5dcca13019e55fc855a9d6c8b7f27fe3f77a0fd0123235905197810a0379c5",
+    "data\\health_multisource_raw_v1\\articles.jsonl": "10857d85955f37a54485cc066b5baf2d44c4f1b7c87267a59b97afec3523f07b"
+  },
+  "frozen_manifest": "data\\cafef_health_prepared_v1\\split_manifest.jsonl",
+  "training_ready": false,
+  "human_reviewed": 0,
+  "tokenizer_checked": false,
+  "limitations": [
+    "Heuristic health and duplicate detection; not medical fact verification",
+    "Extractive draft labels require human review of completeness, attribution and safety",
+    "News sampling is not population representative; copyright/reuse licenses are not granted by robots.txt"
+  ],
+  "validation_passed": true
+}

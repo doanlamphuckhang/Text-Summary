@@ -1,0 +1,101 @@
+{
+  "created_at": "2026-10-15T14:29:45.688363+00:00",
+  "input_sha256": "27bea5719bb53dc7a51f5f5bec517d723c924086fc30ceec0f4223340f20b439",
+  "input_records": 99,
+  "retained_records": 99,
+  "rejected_records": 0,
+  "groups": 99,
+  "near_duplicate_links": 0,
+  "seed": 42,
+  "split_strategy": "seeded grouped 80/10/10 approximate; grouping is heuristic, not semantic proof",
+  "split_counts": {
+    "train": 79,
+    "val": 10,
+    "test": 10
+  },
+  "reviewed_counts": {
+    "train": 0,
+    "val": 0,
+    "test": 0
+  },
+  "training_ready": false,
+  "source_words": {
+    "min": 472,
+    "median": 837,
+    "mean": 857.8384,
+    "max": 1393
+  },
+  "sapo_words": {
+    "min": 13,
+    "median": 24,
+    "mean": 25.6566,
+    "max": 59
+  },
+  "sapo_ratio": {
+    "min": 0.010647010647010647,
+    "median": 0.028605482717520857,
+    "mean": 0.031,
+    "max": 0.09640831758034027
+  },
+  "draft_ratio": {
+    "min": 0.2,
+    "median": 0.22018348623853212,
+    "mean": 0.2195,
+    "max": 0.24738219895287958
+  },
+  "review_flags": {
+    "sapo_numbers_not_found_in_body": 1
+  },
+  "date_years": {
+    "2023": 51,
+    "2024": 45,
+    "2026": 3
+  },
+  "topic_evidence": {
+    "sức khỏe": 91,
+    "thực phẩm": 68,
+    "ung thư": 62,
+    "dinh dưỡng": 60,
+    "tiểu đường": 58,
+    "vitamin": 50,
+    "đường huyết": 50,
+    "bác sĩ": 45,
+    "tim mạch": 44,
+    "huyết áp": 42,
+    "tiêu hóa": 40,
+    "bệnh nhân": 40,
+    "điều trị": 36,
+    "cholesterol": 31,
+    "béo phì": 27,
+    "tuổi thọ": 25,
+    "tập thể dục": 22,
+    "lão hóa": 21,
+    "đột quỵ": 20,
+    "miễn dịch": 20,
+    "nhiễm trùng": 17,
+    "bệnh viện": 16,
+    "dưỡng chất": 16,
+    "xương khớp": 16,
+    "sống thọ": 14,
+    "giảm cân": 12,
+    "trường thọ": 10,
+    "suy thận": 10,
+    "chữa bệnh": 9,
+    "giấc ngủ": 8,
+    "sức khoẻ": 8,
+    "ngộ độc": 4,
+    "mất ngủ": 3,
+    "gan nhiễm mỡ": 3,
+    "đau dạ dày": 2,
+    "thuốc độc": 1
+  },
+  "tokenizer_checked": false,
+  "baseline_commit": "0195b5bd81753bb2b4a4b2e61acecc41bd908dee",
+  "method": "document-local frequency extractive draft; no corpus-fitted statistics or pretrained models",
+  "limitations": [
+    "No medically validated gold labels",
+    "Word counts are not model token counts",
+    "Single outlet and nonrandom crawl sample",
+    "No training or test score claims"
+  ]
+}

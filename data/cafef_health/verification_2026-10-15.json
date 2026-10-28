@@ -1,0 +1,13 @@
+{
+  "verified_at": "2026-10-15T14:22:32.904496+00:00",
+  "passed": true,
+  "articles": 99,
+  "audited_attempts": 100,
+  "rejected": {
+    "insufficient_health_content": 1
+  },
+  "total_source_words": 84926,
+  "dataset_bytes": 624730,
+  "errors": [],
+  "scope": "JSON integrity, provenance, filters and duplicate checks; not medical fact verification or summary evaluation"
+}

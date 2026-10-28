@@ -47,9 +47,42 @@ Hệ thống được triển khai theo hướng thực nghiệm nhiều giai đ
 │   └── gradio_comparision/
 │       ├── gradio_compare_stage2_vit5_vs_bartpho.ipynb
 │       └── gradio_compare_stage3_ppo_vs_stage2_sft.ipynb
+├── scripts/                  # crawl, tiền xử lý, kiểm chứng và xuất nhãn (chỉ dùng thư viện chuẩn)
+├── tests/                    # kiểm thử offline (28 test)
+├── data/                     # dữ liệu crawl/đã xử lý (JSONL không đưa lên Git, xem bên dưới)
+├── DATA_QUALITY_PROTOCOL.md  # quy trình chất lượng dữ liệu trước khi train
+├── REVIEW_AND_UPGRADES.md    # nhật ký rà soát và sửa notebook
 ├── 52300115_52300138_52300143.docx
 ├── NLP_Final.pptx
 └── README.md
+```
+
+## Pipeline dữ liệu (offline, Python 3.10+)
+
+Chi tiết quy trình và các kiểm tra nằm trong [DATA_QUALITY_PROTOCOL.md](DATA_QUALITY_PROTOCOL.md). Toàn bộ script chỉ dùng thư viện chuẩn, không tải model và không train.
+
+```bash
+# 1. Crawl (tuần tự, tuân thủ robots, có ngân sách tải)
+python scripts/crawl_cafef_health.py --output data/cafef_health
+python scripts/crawl_health_multisource.py --output data/health_multisource_raw_v1
+
+# 2. Làm sạch, gom nhóm trùng, chia train/val/test giữ nguyên manifest cũ, tạo nhãn nháp extractive
+python scripts/prepare_health_multisource.py --output data/health_multisource_prepared_v1
+python scripts/verify_health_multisource.py data/health_multisource_prepared_v1
+
+# 3. Duyệt nhãn: mở review.html, xuất health-reviewed-annotations.jsonl
+python scripts/build_health_review.py data/health_multisource_prepared_v1
+
+# 4. Chỉ xuất các nhãn đã được người duyệt (kiểm hash, người duyệt, tỷ lệ 20-25%, số liệu)
+python scripts/export_reviewed_splits.py --prepared data/health_multisource_prepared_v1     --annotations health-reviewed-annotations.jsonl --output data/health_multisource_reviewed_v1
+```
+
+Trạng thái hiện tại: bản `health_multisource_prepared_v1` giữ 995/1000 bài (train 795, val 100, test 100; 993 nhóm độc lập), **0 nhãn được người duyệt, chưa sẵn sàng train**. Nhãn nháp là `extractive_pseudo`, không dùng điểm trên chúng để kết luận chất lượng.
+
+Văn bản bài báo đã crawl (`data/**/*.jsonl`) không được commit vì robots.txt không cấp quyền phân phối lại; chạy lại các lệnh trên để tái tạo. Chạy kiểm thử:
+
+```bash
+python -m unittest discover -s tests -v
 ```
 
 ## Checkpoint models

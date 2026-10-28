@@ -1,3 +1,5 @@
+> **Lưu ý:** tài liệu này mô tả bộ VnExpress cũ (979 cặp). Các script `build_summary_dataset.py`, `validate_dataset.py` và crawler VnExpress không còn trong repo. Pipeline hiện hành (CafeF, Sức khỏe & Đời sống, Tuổi Trẻ) nằm ở `scripts/` và được mô tả trong README gốc và `DATA_QUALITY_PROTOCOL.md`.
+
 # Bộ dữ liệu tóm tắt văn bản tiếng Việt - VnExpress Sức khỏe
 
 ## Tổng quan
