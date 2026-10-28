@@ -25,6 +25,13 @@ class TrainingDataTests(unittest.TestCase):
         self.assertTrue(source.startswith(cut))
         self.assertEqual(fit_window(source, 10 ** 6), (source, False))
 
+    def test_window_cuts_inside_an_overlong_first_sentence(self):
+        source = ' '.join(f'từ{i}' for i in range(50)) + '.\n\nCâu sau.'
+        cut, truncated = fit_window(source, 10)
+        self.assertTrue(truncated)
+        self.assertEqual(cut, ' '.join(f'từ{i}' for i in range(10)))
+        self.assertTrue(source.startswith(cut))
+
     def test_redraft_is_verbatim_and_in_range(self):
         source = article()
         summary, evidence = redraft(source, 'Không tự ý dùng thuốc', NEW)

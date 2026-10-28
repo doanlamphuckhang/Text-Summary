@@ -312,7 +312,7 @@ def crawl(args):
                     if error.code in (401, 403, 429) or error.code >= 500:
                         append_json(audit_path, result)
                         audit.append(result)
-                        raise InterruptedError(f'HTTP {error.code}; stopped without automatic retries')
+                        raise InterruptedError(f'HTTP {error.code}; stopped without automatic retries') from error
                 except (ValueError, UnicodeError, URLError, TimeoutError) as error:
                     result.update(accepted=False, reason='fetch_or_parse_error', error=str(error))
                 append_json(audit_path, result)

@@ -40,7 +40,12 @@ def clean_paragraphs(source):
 
 
 def fit_window(source, max_words):
-    """Cut `source` after the last whole sentence that keeps it within max_words."""
+    """Cut `source` after the last whole sentence that keeps it within max_words.
+
+    If even the first sentence is longer than the window, cut after the max_words-th word instead,
+    so the result is always a prefix of `source` that fits."""
+    if max_words < 1:
+        raise ValueError('max_words must be >= 1')
     if len(source.split()) <= max_words:
         return source, False
     end, used = 0, 0
@@ -49,7 +54,9 @@ def fit_window(source, max_words):
         if used > max_words:
             break
         end = stop
-    return (source[:end] if end else source), True
+    if not end:
+        end = list(re.finditer(r'\S+', source))[max_words - 1].end()
+    return source[:end], True
 
 
 def score_sentences(spans, source, title, cfg):
@@ -59,7 +66,7 @@ def score_sentences(spans, source, title, cfg):
     title_bag = set(tokens(title)) - STOPWORDS
     has_numbers = bool(numbers(source))
     scores = []
-    for i, (sentence, bag) in enumerate(zip(sentences, bags)):
+    for i, (sentence, bag) in enumerate(zip(sentences, bags, strict=True)):
         words = max(1, len(sentence.split()))
         salience = sum(math.log1p(frequency[t]) for t in bag) / math.sqrt(words)
         score = salience
@@ -121,6 +128,8 @@ def build_row(row, max_words, cfg):
 def agreement(rows):
     """Mean ROUGE-1/L F of the draft against the publisher sapo (never used for scoring)."""
     scored = [rouge_scores(r['summary'], r['sapo']) for r in rows if r.get('sapo')]
+    if not scored:
+        return dict(rouge1=None, rougeL=None, n=0)
     return dict(rouge1=round(100 * statistics.mean(s['rouge1'] for s in scored), 2),
                 rougeL=round(100 * statistics.mean(s['rougeL'] for s in scored), 2), n=len(scored))
 
@@ -135,17 +144,19 @@ def build(prepared, output, max_words):
     for row in rows:
         if 'draft_length' in row['review_flags'] or 'short_source' in row['review_flags'] or not row['summary']:
             dropped['bad_draft_length_or_short_source'] += 1
-        elif row['category'] and row['label_type'] != 'extractive_pseudo':
-            dropped['label_type'] += 1
         else:
             kept.append(row)
+    if not kept:
+        raise ValueError('No usable rows left after filtering; check the prepared directory and --max-source-words')
     ids = {r['id'] for r in kept}
-    for split in SPLITS:
-        save_jsonl(output / split / 'dataset.jsonl', [r for r in kept if r['split'] == split])
     groups = {}
     for r in kept:
         groups.setdefault(r['group_id'], set()).add(r['split'])
-    assert all(len(s) == 1 for s in groups.values()), 'a duplicate group crosses splits'
+    crossing = sorted(g for g, s in groups.items() if len(s) > 1)
+    if crossing:
+        raise ValueError(f'{len(crossing)} duplicate group(s) cross splits, e.g. {crossing[0]}')
+    for split in SPLITS:
+        save_jsonl(output / split / 'dataset.jsonl', [r for r in kept if r['split'] == split])
     report = dict(prepared=str(prepared), max_source_words=max_words, input_records=len(source_rows),
                   kept=len(kept), dropped=dict(dropped),
                   split_counts=dict(Counter(r['split'] for r in kept)),
@@ -169,4 +180,6 @@ if __name__ == '__main__':
     parser.add_argument('--max-source-words', type=int, default=600,
                         help='about 1024 ViT5 tokens for Vietnamese at ~1.7 tokens/word; verify with a tokenizer')
     args = parser.parse_args()
+    if args.max_source_words < 1:
+        parser.error('--max-source-words must be >= 1')
     build(args.prepared, args.output, args.max_source_words)

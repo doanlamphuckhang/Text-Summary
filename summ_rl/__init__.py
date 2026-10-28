@@ -1,14 +1,14 @@
 """RL core for summarization. Heavy imports (torch, transformers) are loaded lazily so that
 `summ_rl.text` and `summ_rl.rewards` stay usable from the standard-library-only data scripts."""
 
-__all__ = ['RewardConfig', 'reward_breakdown', 'GroupRLConfig', 'GroupRLTrainer']
+__all__ = ['RewardConfig', 'reward_breakdown', 'GroupRLConfig', 'GroupRLTrainer', 'evaluate_model']
 
 
 def __getattr__(name):
     if name in ('RewardConfig', 'reward_breakdown'):
         from . import rewards
         return getattr(rewards, name)
-    if name in ('GroupRLConfig', 'GroupRLTrainer'):
+    if name in ('GroupRLConfig', 'GroupRLTrainer', 'evaluate_model'):
         from . import grpo
         return getattr(grpo, name)
-    raise AttributeError(name)
+    raise AttributeError(f'module {__name__!r} has no attribute {name!r}')

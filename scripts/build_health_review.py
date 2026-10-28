@@ -1,7 +1,7 @@
 """Build an offline review page; no external scripts or automatic approvals."""
+import argparse
 import json
 from pathlib import Path
-import sys
 
 PAGE = '''<!doctype html><html lang="vi"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -15,20 +15,36 @@ body{font:16px/1.6 system-ui;margin:0;color:#18312b;background:#f4f7f5}header{pa
 const rows=JSON.parse(document.getElementById('data').textContent), edits=new Map();
 const el=id=>document.getElementById(id);let visible=rows,index=0,current=null;
 const words=s=>s.trim()?s.trim().split(/\\s+/).length:0;
-for(const flag of [...new Set(rows.flatMap(r=>r.review_flags))].sort()){const o=document.createElement('option');o.value=o.textContent=flag;el('flag').append(o)}
-function save(){if(!current)return;edits.set(current.id,{id:current.id,source_sha256:current.prepared_source_sha256,summary:el('summary').value,approved:el('approved').checked,reviewer:el('reviewer').value.trim(),notes:el('notes').value,split:current.split})}
-function ratio(){if(current)el('ratio').textContent=`${words(el('summary').value)} từ / ${current.src_word_count} từ nguồn · ${(100*words(el('summary').value)/current.src_word_count).toFixed(1)}% (mục tiêu 20–25%)`}
-function render(){current=visible[index];el('position').textContent=visible.length?`${index+1}/${visible.length} bài trong bộ lọc · ${rows.length} bài toàn bộ`:'Không có bài phù hợp';if(!current){document.querySelector('.grid').hidden=true;return}document.querySelector('.grid').hidden=false;const r=current,e=edits.get(r.id);el('title').textContent=r.title;el('metadata').textContent=`${r.publisher} · ${r.pub_date} · ${r.split} · ${(r.authors||[]).join(', ')||'Chưa có tác giả'}`;el('link').href=r.url;el('flags').textContent=r.review_flags.join(' · ');el('source').replaceChildren();let p=0;for(const s of r.evidence_spans){el('source').append(document.createTextNode(r.source.slice(p,s.start)));const mark=document.createElement('mark');mark.textContent=r.source.slice(s.start,s.end);el('source').append(mark);p=s.end}el('source').append(document.createTextNode(r.source.slice(p)));el('summary').value=e?e.summary:r.summary;el('notes').value=e?e.notes:'';el('reviewer').value=e?e.reviewer:'';el('approved').checked=e?e.approved:false;el('caveats').replaceChildren();for(const s of r.omitted_caveat_candidates||[]){const p=document.createElement('p');p.textContent=s;el('caveats').append(p)}ratio()}
-function filter(){save();visible=rows.filter(r=>(!el('split').value||r.split===el('split').value)&&(!el('flag').value||r.review_flags.includes(el('flag').value))&&r.title.toLocaleLowerCase('vi').includes(el('search').value.toLocaleLowerCase('vi')));index=0;render()}
+// Older review queues (prepare_health_data.py) lack some fields; fall back instead of crashing.
+const flagsOf=r=>r.review_flags||[], srcWords=r=>r.src_word_count||words(r.source);
+for(const flag of [...new Set(rows.flatMap(flagsOf))].sort()){const o=document.createElement('option');o.value=o.textContent=flag;el('flag').append(o)}
+function save(){if(!current)return;edits.set(current.id,{id:current.id,source_sha256:current.prepared_source_sha256||current.source_sha256,summary:el('summary').value,approved:el('approved').checked,reviewer:el('reviewer').value.trim(),notes:el('notes').value,split:current.split})}
+function ratio(){if(current)el('ratio').textContent=`${words(el('summary').value)} từ / ${srcWords(current)} từ nguồn · ${(100*words(el('summary').value)/srcWords(current)).toFixed(1)}% (mục tiêu 20–25%)`}
+function render(){current=visible[index];el('position').textContent=visible.length?`${index+1}/${visible.length} bài trong bộ lọc · ${rows.length} bài toàn bộ`:'Không có bài phù hợp';if(!current){document.querySelector('.grid').hidden=true;return}document.querySelector('.grid').hidden=false;const r=current,e=edits.get(r.id);el('title').textContent=r.title;el('metadata').textContent=`${r.publisher||''} · ${r.pub_date||''} · ${r.split} · ${(r.authors||[]).join(', ')||'Chưa có tác giả'}`;el('link').href=r.url;el('flags').textContent=flagsOf(r).join(' · ');el('source').replaceChildren();let p=0;for(const s of r.evidence_spans||[]){el('source').append(document.createTextNode(r.source.slice(p,s.start)));const mark=document.createElement('mark');mark.textContent=r.source.slice(s.start,s.end);el('source').append(mark);p=s.end}el('source').append(document.createTextNode(r.source.slice(p)));el('summary').value=e?e.summary:r.summary;el('notes').value=e?e.notes:'';el('reviewer').value=e?e.reviewer:'';el('approved').checked=e?e.approved:false;el('caveats').replaceChildren();for(const s of r.omitted_caveat_candidates||[]){const p=document.createElement('p');p.textContent=s;el('caveats').append(p)}ratio()}
+function filter(){save();visible=rows.filter(r=>(!el('split').value||r.split===el('split').value)&&(!el('flag').value||flagsOf(r).includes(el('flag').value))&&r.title.toLocaleLowerCase('vi').includes(el('search').value.toLocaleLowerCase('vi')));index=0;render()}
 for(const id of ['search','split','flag'])el(id).oninput=filter;
 el('prev').onclick=()=>{save();index=Math.max(0,index-1);render()};el('next').onclick=()=>{save();index=Math.min(visible.length-1,index+1);render()};el('summary').oninput=()=>{el('approved').checked=false;ratio()};
 el('export').onclick=()=>{save();const accepted=[...edits.values()].filter(e=>e.approved);if(accepted.some(e=>!e.reviewer||!e.summary.trim())){alert('Nhãn được duyệt phải có người duyệt và nội dung tóm tắt.');return}if(!accepted.length){alert('Chưa có nhãn được duyệt.');return}const blob=new Blob([accepted.map(e=>JSON.stringify(e)).join('\\n')+'\\n'],{type:'application/x-ndjson;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='health-reviewed-annotations.jsonl';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};render();
 </script></html>'''
 
+def build(directory):
+    """Write review.html next to review_queue.jsonl; never overwrites an existing page."""
+    queue = directory / 'review_queue.jsonl'
+    rows = [json.loads(line) for line in queue.read_text(encoding='utf-8').splitlines() if line.strip()]
+    if not rows:
+        raise ValueError(f'{queue} has no records to review')
+    # Escape characters that could close the <script> element inside the JSON payload.
+    payload = json.dumps(rows, ensure_ascii=False).replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
+    target = directory / 'review.html'
+    with target.open('x', encoding='utf-8') as stream:
+        stream.write(PAGE.replace('PAYLOAD', payload))
+    return dict(review_records=len(rows), output=str(target))
+
+
 if __name__ == '__main__':
-    directory=Path(sys.argv[1])
-    rows=[json.loads(s) for s in (directory/'review_queue.jsonl').read_text(encoding='utf-8').splitlines()]
-    payload=json.dumps(rows,ensure_ascii=False).replace('<','\\u003c').replace('>','\\u003e').replace('&','\\u0026')
-    with (directory/'review.html').open('x',encoding='utf-8') as stream:
-        stream.write(PAGE.replace('PAYLOAD',payload))
-    print(json.dumps(dict(review_records=len(rows),output=str(directory/'review.html'))))
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('directory', type=Path, help='prepared directory containing review_queue.jsonl')
+    try:
+        print(json.dumps(build(parser.parse_args().directory), ensure_ascii=False))
+    except FileExistsError as error:
+        raise SystemExit(f'{error.filename} already exists; move it away first (it may hold unsaved review work)') from None

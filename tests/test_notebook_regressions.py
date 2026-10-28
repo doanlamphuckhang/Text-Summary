@@ -103,7 +103,7 @@ class NotebookRegressionTests(unittest.TestCase):
         config_tree = ast.parse(source(PPO, 6))
         assignment = next(n for n in config_tree.body if isinstance(n, ast.Assign)
                           and any(isinstance(t, ast.Name) and t.id == 'CONFIG' for t in n.targets))
-        config = {ast.literal_eval(k): ast.literal_eval(v) for k, v in zip(assignment.value.keys, assignment.value.values)
+        config = {ast.literal_eval(k): ast.literal_eval(v) for k, v in zip(assignment.value.keys, assignment.value.values, strict=True)
                   if not isinstance(v, ast.Name)}
         names = ['number_recall', 'number_hallucination', 'length_ratio_fn', 'length_score',
                  'diversity_score', 'compute_reward_breakdown']
@@ -179,7 +179,7 @@ class NotebookRegressionTests(unittest.TestCase):
 
                 def save_actor(path, step=None):
                     path.mkdir(exist_ok=True)
-                    saved_steps.append(step)
+                    saved_steps.append(step)  # noqa: B023 - called inside this iteration
                     return path
 
                 def reward(*args):
@@ -187,7 +187,7 @@ class NotebookRegressionTests(unittest.TestCase):
                                 length_score=.5, diversity=1., hard_penalty=0.)
 
                 scope = dict(CONFIG=config, OUT_DIR=out, RESULTS_DIR=out, BEST_DIR_S3=out / 'best_model',
-                             quick_eval_on_val=lambda **kw: dict(rougeL=next(evaluations), reward_mean=.1),
+                             quick_eval_on_val=lambda **kw: dict(rougeL=next(evaluations), reward_mean=.1),  # noqa: B023
                              save_actor=save_actor, train_rl=[dict(source='5 mg', summary='5 mg')] * 4,
                              compute_reward_breakdown=reward, check_stop_requested=lambda: None,
                              clear_cuda=lambda: None, MODEL_DTYPE='fake', DEVICE='cpu', tqdm=Progress,

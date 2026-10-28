@@ -39,7 +39,10 @@ def verify(directory):
         if not row['pub_date']:
             errors.append(row['id'] + ': missing publication date')
         else:
-            datetime.fromisoformat(row['pub_date'])
+            try:
+                datetime.fromisoformat(row['pub_date'])
+            except ValueError:
+                errors.append(row['id'] + ': invalid publication date')
         if '\ufffd' in row['source'] or '<script' in row['source'].casefold():
             errors.append(row['id'] + ': encoding or HTML residue')
         if 'summary' in row:

@@ -51,6 +51,21 @@ class GroupRLConfig:
     use_amp: bool = True
     seed: int = 42
 
+    def __post_init__(self):
+        if self.group_size < 2:
+            raise ValueError('group_size must be >= 2: advantages are standardized inside each group')
+        for name in ('prompts_per_step', 'ppo_epochs', 'max_input_len', 'max_target_len', 'max_new_tokens'):
+            if getattr(self, name) < 1:
+                raise ValueError(f'{name} must be >= 1')
+        if not 0 <= self.min_new_tokens <= self.max_new_tokens:
+            raise ValueError('Need 0 <= min_new_tokens <= max_new_tokens')
+        if self.lr <= 0 or self.temperature <= 0 or self.clip_eps <= 0:
+            raise ValueError('lr, temperature and clip_eps must be positive')
+        if not 0 <= self.kl_coef_min <= self.kl_coef_max:
+            raise ValueError('Need 0 <= kl_coef_min <= kl_coef_max')
+        if self.kl_coef < 0 or self.sft_coef < 0 or self.target_kl <= 0:
+            raise ValueError('kl_coef and sft_coef must be >= 0 and target_kl > 0')
+
 
 def assert_fp32_trainable(model):
     bad = sorted({str(p.dtype) for p in model.parameters() if p.requires_grad and p.dtype != torch.float32})
@@ -70,7 +85,8 @@ def completion_labels(sequences, eos_id):
     """Labels for sampled sequences: tokens up to and including the first EOS, -100 afterwards."""
     labels = sequences[:, 1:].clone()
     is_eos = labels == eos_id
-    first = torch.where(is_eos.any(1), is_eos.float().argmax(1), torch.full_like(is_eos.float().argmax(1), labels.size(1) - 1))
+    first_eos = is_eos.float().argmax(1)
+    first = torch.where(is_eos.any(1), first_eos, torch.full_like(first_eos, labels.size(1) - 1))
     keep = torch.arange(labels.size(1), device=labels.device)[None] <= first[:, None]
     return labels.masked_fill(~keep, -100)
 
@@ -111,7 +127,12 @@ def encode(model, ids, mask):
 @torch.no_grad()
 def evaluate_model(model, tokenizer, rows, device, reward_cfg=None, max_input_len=1024, max_new_tokens=320,
                    min_new_tokens=48, num_beams=4, no_repeat_ngram_size=3, batch_size=8, use_amp=True):
+    """Beam-search every row and return (aggregate metrics, predictions). Metrics are percentages
+    except `reward` and `length_ratio`."""
+    if not rows:
+        raise ValueError('evaluate_model needs at least one row')
     reward_cfg = reward_cfg or RewardConfig()
+    beam_kwargs = dict(num_beams=num_beams, early_stopping=True) if num_beams > 1 else dict(num_beams=1)
     was_training = model.training
     model.eval()
     amp = torch.autocast(device_type='cuda', dtype=torch.bfloat16) if use_amp and device.type == 'cuda' else nullcontext()
@@ -123,14 +144,16 @@ def evaluate_model(model, tokenizer, rows, device, reward_cfg=None, max_input_le
             with amp:
                 ids = model.generate(input_ids=enc['input_ids'], attention_mask=enc['attention_mask'],
                                      max_new_tokens=max_new_tokens, min_new_tokens=min_new_tokens,
-                                     num_beams=num_beams, no_repeat_ngram_size=no_repeat_ngram_size,
-                                     early_stopping=True)
+                                     no_repeat_ngram_size=no_repeat_ngram_size, **beam_kwargs)
             preds.extend(tokenizer.batch_decode(ids, skip_special_tokens=True))
     finally:
         if was_training:
             model.train()
-    parts = [reward_breakdown(r['source'], p, r['summary'], reward_cfg) for r, p in zip(rows, preds)]
-    mean = lambda key: sum(x[key] for x in parts) / len(parts)
+    parts = [reward_breakdown(r['source'], p, r['summary'], reward_cfg) for r, p in zip(rows, preds, strict=True)]
+
+    def mean(key):
+        return sum(x[key] for x in parts) / len(parts)
+
     ratios = [x['length_ratio'] for x in parts]
     return dict(n=len(parts), reward=mean('reward'), rouge1=100 * mean('rouge1'), rouge2=100 * mean('rouge2'),
                 rougeL=100 * mean('rougeL'), number_recall=100 * mean('number_recall'),
@@ -209,6 +232,8 @@ class GroupRLTrainer:
             self._set_lr()
             self.optimizer.zero_grad(set_to_none=True)
             for i in range(P):
+                if not active[i] and cfg.sft_coef <= 0:
+                    continue  # no RL signal and no supervised anchor: skip the encoder pass
                 sl = slice(i * K, (i + 1) * K)
                 loss = 0.
                 with self._amp():
@@ -245,7 +270,10 @@ class GroupRLTrainer:
             elif kl < cfg.target_kl / 2:
                 self.kl_coef = max(cfg.kl_coef_min, self.kl_coef / 1.5)
         flat = [x for group in parts for x in group]
-        mean = lambda key: sum(x[key] for x in flat) / len(flat)
+
+        def mean(key):
+            return sum(x[key] for x in flat) / len(flat)
+
         lengths = labels.ne(-100).sum(1).float()
         return dict(reward=mean('reward'), reward_std_in_group=float(rewards.std(1, unbiased=False).mean()),
                     rouge_l=mean('rougeL'), number_recall=mean('number_recall'), hallucination=mean('hallucination'),
@@ -289,31 +317,51 @@ class GroupRLTrainer:
         """Run RL; returns (history, best_meta). The SFT baseline is evaluated and saved first.
 
         With resume=True an interrupted run continues from `resume_state.pt` in out_dir (written every
-        `save_every` steps); the same data order, optimizer state and best checkpoint are restored."""
+        `save_every` steps and whenever `should_stop` asks to stop); the same data order, optimizer state
+        and best checkpoint are restored. `best_model/` on disk is the authority for the best score."""
+        if not train_rows or not val_rows:
+            raise ValueError('train_rows and val_rows must both be non-empty')
+        if min(steps, eval_every, save_every) < 1:
+            raise ValueError('steps, eval_every and save_every must be >= 1')
         cfg, out_dir = self.cfg, Path(out_dir)
         out_dir.mkdir(parents=True, exist_ok=True)
-        eval_kwargs = dict(max_input_len=cfg.max_input_len, max_new_tokens=cfg.max_new_tokens,
-                           min_new_tokens=cfg.min_new_tokens, use_amp=cfg.use_amp, **(eval_kwargs or {}))
-        state_path, first_step = out_dir / 'resume_state.pt', 1
-        rng, queue, history = random.Random(cfg.seed), [], []
+        eval_kwargs = {**dict(max_input_len=cfg.max_input_len, max_new_tokens=cfg.max_new_tokens,
+                              min_new_tokens=cfg.min_new_tokens, use_amp=cfg.use_amp), **(eval_kwargs or {})}
+        state_path, log_path, best_dir = out_dir / 'resume_state.pt', out_dir / 'rl_steps.jsonl', out_dir / 'best_model'
+        first_step, rng, queue, history = 1, random.Random(cfg.seed), [], []
         if resume and state_path.exists():
             saved = self.load_state(state_path)
             base, best, queue, history = saved['base'], saved['best'], saved['queue'], saved['history']
             rng.setstate(saved['rng'])
             first_step = saved['step'] + 1
-            lines = [json.dumps(h, ensure_ascii=False, allow_nan=False) for h in history]
-            (out_dir / 'rl_steps.jsonl').write_text(''.join(line + chr(10) for line in lines), encoding='utf-8')
+            # best_model/ may have been replaced after the last state save; never overwrite it with a worse model.
+            on_disk = read_best_meta(best_dir)
+            if on_disk is not None and on_disk.get('reward', -math.inf) > best['reward']:
+                best = on_disk
+            lines = [json.dumps(h, ensure_ascii=False, allow_nan=False) + '\n' for h in history]
+            log_path.write_text(''.join(lines), encoding='utf-8')
             log(f'resumed after step {saved["step"]} (best so far: step {best["step"]}, reward {best["reward"]:.4f})')
         else:
-            if (out_dir / 'rl_steps.jsonl').exists():
+            if log_path.exists():
+                if resume:
+                    raise FileExistsError(f'resume=True but {state_path.name} is missing (the run stopped before its '
+                                          'first state save); start again in a fresh out_dir')
                 raise FileExistsError('out_dir already holds a run; use a fresh directory or resume=True')
             base, _ = evaluate_model(self.model, self.tokenizer, val_rows, self.device, self.reward_cfg, **eval_kwargs)
             best = dict(step=0, selection='SFT baseline', **base)
-            self.save(out_dir / 'best_model', best)
+            self.save(best_dir, best)
             log(f'baseline: {json.dumps(base)}')
+        (out_dir / 'rl_config.json').write_text(
+            json.dumps(dict(rl=asdict(cfg), reward=asdict(self.reward_cfg), steps=steps, eval_every=eval_every,
+                            max_halluc_increase=max_halluc_increase), indent=2), encoding='utf-8')
+
+        def save_progress(done):
+            self.save_state(state_path, base=base, best=best, queue=queue, history=history, rng=rng.getstate(), step=done)
+
         for step in range(first_step, steps + 1):
             if should_stop and should_stop():
-                log('stop requested')
+                save_progress(step - 1)
+                log(f'stop requested; state saved after step {step - 1} (resume=True continues from there)')
                 break
             while len(queue) < cfg.prompts_per_step:
                 epoch_rows = list(train_rows)
@@ -321,7 +369,7 @@ class GroupRLTrainer:
                 queue.extend(epoch_rows)
             batch, queue = queue[:cfg.prompts_per_step], queue[cfg.prompts_per_step:]
             started = time.time()
-            stats, sample = self.step(batch)
+            stats, _ = self.step(batch)
             stats['step'], stats['seconds'] = step, time.time() - started
             if step % eval_every == 0 or step == steps:
                 metrics, _ = evaluate_model(self.model, self.tokenizer, val_rows, self.device, self.reward_cfg, **eval_kwargs)
@@ -329,10 +377,10 @@ class GroupRLTrainer:
                 safe = metrics['number_hallucination'] <= base['number_hallucination'] + max_halluc_increase
                 if safe and metrics['reward'] > best['reward']:
                     best = dict(step=step, selection='RL', **metrics)
-                    self.save(out_dir / 'best_model', best)
+                    self.save(best_dir, best)
                     log(f'step {step}: new best val reward {metrics["reward"]:.4f}')
             history.append(stats)
-            with (out_dir / 'rl_steps.jsonl').open('a', encoding='utf-8') as stream:
+            with log_path.open('a', encoding='utf-8') as stream:
                 stream.write(json.dumps(stats, ensure_ascii=False, allow_nan=False) + '\n')
             log(f'step {step}: reward={stats["reward"]:+.3f} kl={stats["kl"]:.4f} coef={stats["kl_coef"]:.3f} '
                 f'active={stats["active_groups"]:.2f} clip={stats["clip_fraction"]:.2f} halluc={stats["hallucination"]:.2f} '
@@ -341,6 +389,13 @@ class GroupRLTrainer:
                 log('KL exceeded kl_abort; stopping and keeping the best checkpoint')
                 break
             if step % save_every == 0 and step < steps:
-                self.save_state(state_path, base=base, best=best, queue=queue, history=history, rng=rng.getstate(), step=step)
-        (out_dir / 'rl_config.json').write_text(json.dumps(dict(rl=asdict(cfg), reward=asdict(self.reward_cfg)), indent=2), encoding='utf-8')
+                save_progress(step)
         return history, best
+
+
+def read_best_meta(directory):
+    """Metadata of a saved best checkpoint, or None when it is missing or unreadable."""
+    try:
+        return json.loads((Path(directory) / 'best_meta.json').read_text(encoding='utf-8'))
+    except (FileNotFoundError, json.JSONDecodeError):
+        return None

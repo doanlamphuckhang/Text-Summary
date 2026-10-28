@@ -149,6 +149,7 @@ def distribution(values):
 def prepare(input_path, output, annotations=None):
     if output.exists():
         raise FileExistsError('Use a fresh output directory; existing datasets are never overwritten')
+    output.parent.mkdir(parents=True, exist_ok=True)
     if shutil.disk_usage(output.parent).free < 100 * 1024 * 1024:
         raise RuntimeError('Need at least 100 MiB free')
     original_hash = hashlib.sha256(input_path.read_bytes()).hexdigest()
@@ -229,8 +230,8 @@ def prepare(input_path, output, annotations=None):
                 'label_status': 'human_reviewed', 'reviewer': annotation['reviewer']})
     for a in splits:
         for b in splits:
-            if a != b:
-                assert not {r['group_id'] for r in splits[a]} & {r['group_id'] for r in splits[b]}
+            if a != b and {r['group_id'] for r in splits[a]} & {r['group_id'] for r in splits[b]}:
+                raise RuntimeError(f'A duplicate group crosses the {a} and {b} splits')
     output.mkdir()
     save_jsonl(output / 'clean_articles.jsonl', rows)
     save_jsonl(output / 'rejected.jsonl', rejected)
@@ -258,7 +259,8 @@ def prepare(input_path, output, annotations=None):
         method='document-local frequency extractive draft; no corpus-fitted statistics or pretrained models',
         limitations=['No medically validated gold labels', 'Word counts are not model token counts',
                      'Single outlet and nonrandom crawl sample', 'No training or test score claims'])
-    assert hashlib.sha256(input_path.read_bytes()).hexdigest() == original_hash
+    if hashlib.sha256(input_path.read_bytes()).hexdigest() != original_hash:
+        raise RuntimeError('Input file changed during preparation')
     (output / 'report.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(report, ensure_ascii=True, indent=2))
     return report

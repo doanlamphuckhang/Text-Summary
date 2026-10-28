@@ -7,7 +7,7 @@ NUM_RE = re.compile(r'\d+(?:[.,]\d+)*')
 
 def tokens(text):
     """NFC + casefold, split into letter/digit runs (keeps Vietnamese diacritics)."""
-    return re.findall(r'[^\W_]+', unicodedata.normalize('NFC', str(text)).casefold())
+    return re.findall(r'[^\W_]+', unicodedata.normalize('NFC', str(text or '')).casefold())
 
 
 def numbers(text):

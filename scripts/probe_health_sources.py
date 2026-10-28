@@ -6,7 +6,6 @@ import hashlib
 import os
 
 OUT = Path('outputs/source-probes')
-OUT.mkdir(parents=True, exist_ok=True)
 URLS = [
     'https://suckhoedoisong.vn/robots.txt',
     'https://suckhoedoisong.vn/y-hoc-360.htm',
@@ -16,6 +15,7 @@ URLS = [
 ]
 if __name__ == '__main__':
     import sys
+    OUT.mkdir(parents=True, exist_ok=True)
     for url in sys.argv[1:] or URLS:
         if os.environ.get('CODEX_SAFETY_STOP_FILE') and Path(os.environ['CODEX_SAFETY_STOP_FILE']).exists():
             raise SystemExit('stop requested')

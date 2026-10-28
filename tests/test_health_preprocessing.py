@@ -7,7 +7,7 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from prepare_health_data import clean_text, digest, extractive_draft, make_groups, prepare, split_groups
+from prepare_health_data import clean_text, extractive_draft, make_groups, prepare, split_groups
 
 
 class PreprocessingTests(unittest.TestCase):

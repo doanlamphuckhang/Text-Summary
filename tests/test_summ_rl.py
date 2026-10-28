@@ -175,6 +175,54 @@ class TrainerTests(unittest.TestCase):
             with self.assertRaises(FileExistsError):
                 self.make(lr=1e-3)[1].train(ROWS[:6], ROWS[6:10], steps=1, out_dir=Path(tmp) / 'a', **kwargs)
 
+    def test_stop_request_saves_state_and_resume_matches_uninterrupted_run(self):
+        kwargs = dict(eval_every=100, eval_kwargs=dict(num_beams=1, batch_size=4), log=lambda *_: None, save_every=100)
+        with tempfile.TemporaryDirectory() as tmp:
+            full_model, full = self.make(lr=1e-3)
+            full.train(ROWS[:6], ROWS[6:10], steps=3, out_dir=Path(tmp) / 'full', **kwargs)
+            calls = iter([False, False, True])
+            stopped_model, stopped = self.make(lr=1e-3)
+            history, _ = stopped.train(ROWS[:6], ROWS[6:10], steps=3, out_dir=Path(tmp) / 'cut',
+                                       should_stop=lambda: next(calls), **kwargs)
+            self.assertEqual(len(history), 2)
+            self.assertTrue((Path(tmp) / 'cut' / 'resume_state.pt').exists())
+            resumed_model, resumed = self.make(lr=1e-3)
+            history, _ = resumed.train(ROWS[:6], ROWS[6:10], steps=3, out_dir=Path(tmp) / 'cut', resume=True, **kwargs)
+            self.assertEqual([h['step'] for h in history], [1, 2, 3])
+            for key, value in full_model.state_dict().items():
+                self.assertTrue(torch.allclose(value, resumed_model.state_dict()[key], atol=1e-6), key)
+
+    def test_resume_without_saved_state_explains_itself(self):
+        kwargs = dict(eval_every=100, eval_kwargs=dict(num_beams=1, batch_size=4), log=lambda *_: None, save_every=100)
+        with tempfile.TemporaryDirectory() as tmp:
+            self.make(lr=1e-3)[1].train(ROWS[:6], ROWS[6:10], steps=1, out_dir=tmp, **kwargs)
+            with self.assertRaisesRegex(FileExistsError, 'resume_state.pt is missing'):
+                self.make(lr=1e-3)[1].train(ROWS[:6], ROWS[6:10], steps=2, out_dir=tmp, resume=True, **kwargs)
+
+    def test_eval_kwargs_can_override_trainer_defaults(self):
+        _, trainer = self.make(lr=1e-4)
+        with tempfile.TemporaryDirectory() as tmp:
+            history, _ = trainer.train(ROWS[:6], ROWS[6:8], steps=1, out_dir=tmp, log=lambda *_: None,
+                                       eval_kwargs=dict(num_beams=1, max_new_tokens=4, min_new_tokens=1))
+            self.assertIn('val_reward', history[0])
+            self.assertTrue((Path(tmp) / 'rl_config.json').exists())
+        with self.assertRaises(ValueError):
+            trainer.train([], ROWS[:2], steps=1, out_dir='unused')
+
+
+class ConfigTests(unittest.TestCase):
+    def test_invalid_configs_fail_fast(self):
+        for bad in (dict(group_size=1), dict(lr=0), dict(min_new_tokens=500), dict(kl_coef_min=2.0)):
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                GroupRLConfig(**bad)
+        for bad in (dict(min_ratio=.3), dict(w_halluc=-1), dict(rouge_weights=(1., 0.))):
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                RewardConfig(**bad)
+
+    def test_text_helpers_accept_none(self):
+        self.assertEqual(tokens(None), [])
+        self.assertEqual(reward_breakdown('nguồn', None, 'gold')['reward'], RewardConfig().degenerate_reward)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -35,7 +35,7 @@ class PreparationTests(unittest.TestCase):
             path=Path(temporary)
             rows=[]
             for i in range(3):
-                body='\n\n'.join(f'Bác sĩ giải thích sức khỏe và dinh dưỡng cần được theo dõi. ' + ' '.join(f'chủđề{i}từ{j}mục{k}' for j in range(70)) + '.' for k in range(5))
+                body='\n\n'.join('Bác sĩ giải thích sức khỏe và dinh dưỡng cần được theo dõi. ' + ' '.join(f'chủđề{i}từ{j}mục{k}' for j in range(70)) + '.' for k in range(5))
                 rows.append(dict(id=str(i),url='https://example.org/'+str(i),source=body,title='Sức khỏe '+str(i),pub_date='2025-01-01T00:00:00+07:00',publisher='fixture',sapo=''))
             source=path/'input.jsonl'
             source.write_text(''.join(json.dumps(r,ensure_ascii=False)+'\n' for r in rows),encoding='utf-8')

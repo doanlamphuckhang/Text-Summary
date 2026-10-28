@@ -47,5 +47,5 @@ Chạy `scripts/build_training_data.py` (xem README). Thay đổi so với nhãn
 
 1. Upload `data/health_training_v1` lên Drive (JSONL không có trên GitHub vì bản quyền bài báo).
 2. Với Stage 2, đặt `DATA_ROOT` trỏ tới thư mục đó (cùng schema `id/source/summary`).
-3. Chạy `check_token_lengths.py`, chỉnh `--max-source-words` nếu cần và dựng lại dữ liệu.
-4. Chạy notebook RL v2; sau 3 bước đọc ETA, nếu quá lâu thì giảm `STEPS` hoặc `group_size`.
+3. Chạy `check_token_lengths.py`, chỉnh `--max-source-words` nếu cần và dựng lại dữ liệu. Gợi ý của script gộp cả ba split và dùng phân vị 95 của số token/từ, nên khoảng 95% bài vừa cửa sổ đầu vào.
+4. Chạy notebook RL v2; sau 3 bước đọc ETA, nếu quá lâu thì giảm `STEPS` hoặc `group_size`. Khi Colab ngắt, đặt `RESUME = True` và giữ nguyên `OUT_DIR`; trạng thái được lưu mỗi 25 bước nên tối đa mất 24 bước.

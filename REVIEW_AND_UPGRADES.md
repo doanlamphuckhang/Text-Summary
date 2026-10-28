@@ -42,3 +42,19 @@ Thứ tự đề xuất:
 3. Kiểm tra phiên bản thư viện, cơ chế giới hạn workload và tài nguyên thực tế. Tách rõ runtime Colab hiện tại với môi trường Windows; các notebook vẫn giữ đường dẫn Colab cần cấu hình lại.
 4. Chạy lại đánh giá SFT và reranking bằng metric mới trên cùng tập validation; quyết định có cần train Stage 2 lại. Sau đó mới thử PPO và so sánh cùng tiêu chí, cùng tập test.
 5. Nếu tiếp tục nâng cấp kiến trúc: tách helper chung thành package, thêm CLI/config và resume checkpoint đầy đủ. Đợt sửa này giữ notebook tự chứa để không làm hỏng cách mở trực tiếp trên Colab.
+
+## Đợt rà soát 28/10/2026 (source Python)
+
+Chỉ sửa `summ_rl/`, `scripts/` và `tests/`; không đổi notebook, dữ liệu hay cách gọi API mà notebook RL v2 đang dùng.
+
+1. **Resume RL (`GroupRLTrainer.train`):** yêu cầu dừng qua `should_stop` giờ lưu `resume_state.pt` trước khi thoát, nên không mất các bước đã chạy kể từ lần lưu gần nhất. Khi resume, nếu `best_model/` trên đĩa tốt hơn điểm trong trạng thái đã lưu (best được ghi sau lần lưu cuối) thì lấy điểm trên đĩa làm mốc, tránh ghi đè bằng model kém hơn. `resume=True` khi chưa có trạng thái nào báo lỗi rõ thay vì gợi ý ngược "hãy dùng resume=True". `rl_config.json` được ghi ngay đầu run.
+2. **`eval_kwargs`:** truyền `max_input_len`, `max_new_tokens`... trong `eval_kwargs` trước đây gây `TypeError` trùng tham số; giờ giá trị truyền vào ghi đè mặc định. `evaluate_model` chỉ truyền `early_stopping` khi `num_beams > 1` (hết cảnh báo của Transformers) và báo lỗi rõ khi danh sách rỗng.
+3. **Kiểm tra cấu hình:** `GroupRLConfig` và `RewardConfig` từ chối giá trị vô nghĩa ngay khi tạo (ví dụ `group_size < 2` làm lợi thế nhóm luôn bằng 0, `min_ratio >= max_ratio`, trọng số âm). Bỏ lượt encoder thừa cho nhóm không có tín hiệu khi `sft_coef = 0`.
+4. **`build_training_data.fit_window`:** khi câu đầu tiên đã dài hơn cửa sổ, hàm cũ trả về nguyên bài (vẫn vượt cửa sổ) nhưng gắn cờ đã cắt. Giờ cắt tại từ thứ `max_words`, kết quả luôn là tiền tố vừa cửa sổ. Bỏ nhánh lọc `label_type` không bao giờ chạy; không còn crash khi không mẫu nào có sapo hoặc mọi mẫu bị loại. Kiểm tra nhóm trùng vượt split chạy trước khi ghi file.
+5. **`check_token_lengths`:** gợi ý `--max-source-words` trước đây chỉ dựa trên split cuối cùng (test) do biến vòng lặp bị dùng lại. Giờ gộp cả ba split và dùng phân vị 95 thay vì trung bình. Phần tính toán tách thành hàm thuần có test.
+6. **Kiểm định dữ liệu không dùng `assert`:** `verify_health_multisource.py`, `prepare_health_multisource.py`, `prepare_health_data.py` dùng kiểm tra tường minh, nên vẫn chạy dưới `python -O`. Trình kiểm định liệt kê mọi lỗi và trả mã thoát 1 khi có lỗi; có argparse.
+7. **Trang duyệt (`build_health_review.py`):** có argparse, bỏ qua dòng trống, báo lỗi dễ hiểu khi `review.html` đã tồn tại. Trang không còn crash với review queue cũ thiếu `evidence_spans`, `prepared_source_sha256` hoặc `src_word_count`.
+8. **Nhỏ:** `tokens(None)` trả về rỗng thay vì `['none']`; `verify_cafef_health` ghi lỗi ngày không hợp lệ thay vì crash; `probe_health_sources` không tạo thư mục khi chỉ import; tạo thư mục cha của output trước khi kiểm tra dung lượng; giữ nguyên nguyên nhân gốc khi dừng crawler vì lỗi HTTP.
+9. **Lint:** thêm `ruff.toml`; `ruff check .` sạch trên `summ_rl/`, `scripts/`, `tests/`.
+
+Kiểm chứng: 54 test offline đạt (thêm 11 test cho các mục trên, gồm dừng giữa chừng rồi resume cho trọng số trùng với run không ngắt, và kiểm định bắt được dữ liệu bị sửa). Vẫn **chưa chạy trên ViT5 thật hay dữ liệu thật**; các số liệu chất lượng trong tài liệu không thay đổi.

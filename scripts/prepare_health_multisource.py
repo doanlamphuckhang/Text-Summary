@@ -90,6 +90,7 @@ def draft(row):
 def prepare(inputs, frozen, output):
     if output.exists():
         raise FileExistsError('Fresh version directory required')
+    output.parent.mkdir(parents=True, exist_ok=True)
     if shutil.disk_usage(output.parent).free < 1024**3:
         raise RuntimeError('Need 1 GiB free')
     input_hashes = {str(p): digest(p.read_text(encoding='utf-8')) for p in inputs}
@@ -113,11 +114,14 @@ def prepare(inputs, frozen, output):
                 if len(words) % 2 == 0 and words[:half] == words[half:]:
                     words = words[:half]
                 value = ' '.join(words)
-                if value not in authors: authors.append(value)
+                if value not in authors:
+                    authors.append(value)
             r['authors'] = authors
             if r['id'] in seen or r['url'] in urls or r['content_key'] in contents:
                 raise ValueError('exact_duplicate')
-            seen.add(r['id']); urls.add(r['url']); contents[r['content_key']] = r['id']
+            seen.add(r['id'])
+            urls.add(r['url'])
+            contents[r['content_key']] = r['id']
             date = datetime.fromisoformat(r['pub_date'])
             if date.tzinfo is None or date > datetime.now(timezone.utc):
                 raise ValueError('invalid_date')
@@ -160,12 +164,16 @@ def prepare(inputs, frozen, output):
         summary, evidence = draft(r)
         ratio = len(summary.split()) / r['src_word_count']
         flags = []
-        if not .2 <= ratio <= .25: flags.append('draft_length')
-        if not r.get('authors'): flags.append('author_unavailable')
-        if not r.get('external_reference_urls'): flags.append('no_external_reference_link')
+        if not .2 <= ratio <= .25:
+            flags.append('draft_length')
+        if not r.get('authors'):
+            flags.append('author_unavailable')
+        if not r.get('external_reference_urls'):
+            flags.append('no_external_reference_link')
         if re.search(r'\b(?:bí quyết|thần dược|sống thọ|trường thọ|117 tuổi|chữa khỏi)\b', r['title'], re.I):
             flags.append('strong_health_claim_needs_review')
-        if '?' in r['title']: flags.append('question_headline_check_answer_coverage')
+        if '?' in r['title']:
+            flags.append('question_headline_check_answer_coverage')
         if any(re.match(r'(?:Điều này|Theo đó|Do đó|Tuy nhiên|Ông|Bà)\b', e['text']) for e in evidence):
             flags.append('check_context_and_attribution')
         caveats = [r['source'][a:b] for a,b in sentence_spans(r['source'])
@@ -202,13 +210,19 @@ def prepare(inputs, frozen, output):
         limitations=['Heuristic health and duplicate detection; not medical fact verification',
             'Extractive draft labels require human review of completeness, attribution and safety',
             'News sampling is not population representative; copyright/reuse licenses are not granted by robots.txt'])
-    assert input_hashes == {str(p): digest(p.read_text(encoding='utf-8')) for p in inputs}
+    # Explicit checks (not `assert`) so they still run under `python -O`.
+    if input_hashes != {str(p): digest(p.read_text(encoding='utf-8')) for p in inputs}:
+        raise RuntimeError('An input file changed during preparation')
+    split_of_group = {}
     for r in drafts:
-        assert r['summary'] == ' '.join(e['text'] for e in r['evidence_spans'])
-        assert all(r['source'][e['start']:e['end']] == e['text'] for e in r['evidence_spans'])
-        if r['id'] in old: assert r['split'] == old[r['id']]['split']
-    for group in {r['group_id'] for r in accepted}:
-        assert len({r['split'] for r in accepted if r['group_id']==group}) == 1
+        if r['summary'] != ' '.join(e['text'] for e in r['evidence_spans']):
+            raise RuntimeError(f"{r['id']}: summary differs from its evidence spans")
+        if not all(r['source'][e['start']:e['end']] == e['text'] for e in r['evidence_spans']):
+            raise RuntimeError(f"{r['id']}: evidence offsets do not match the source")
+        if r['id'] in old and r['split'] != old[r['id']]['split']:
+            raise RuntimeError(f"{r['id']}: frozen split changed")
+        if split_of_group.setdefault(r['group_id'], r['split']) != r['split']:
+            raise RuntimeError(f"group {r['group_id']} crosses splits")
     report['validation_passed'] = True
     (output/'report.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
     print(json.dumps(report, ensure_ascii=True), flush=True)

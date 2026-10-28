@@ -212,7 +212,7 @@ def crawl(output, target=901):
                         if error.code in (401, 403, 429) or error.code >= 500:
                             append_json(output / 'crawl_audit.jsonl', result)
                             audit.append(result)
-                            raise InterruptedError(result['reason'])
+                            raise InterruptedError(result['reason']) from error
                     except (ValueError, UnicodeError, URLError, TimeoutError, HTTPException) as error:
                         result.update(accepted=False, reason='parse_or_fetch_error', error=str(error))
                     append_json(output / 'crawl_audit.jsonl', result)
@@ -237,6 +237,6 @@ def crawl(output, target=901):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, default=Path('data/health_multisource_raw_v1'))
-    parser.add_argument('--target', type=int, default=901, choices=range(1, 902))
+    parser.add_argument('--target', type=int, default=901, choices=range(1, 902), metavar='1..901')
     args = parser.parse_args()
     raise SystemExit(crawl(args.output, args.target))

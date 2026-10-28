@@ -49,7 +49,7 @@ Hệ thống được triển khai theo hướng thực nghiệm nhiều giai đ
 │       └── gradio_compare_stage3_ppo_vs_stage2_sft.ipynb
 ├── summ_rl/                  # lõi RL v2 (group-relative PPO), reward, ROUGE; có test offline
 ├── scripts/                  # crawl, tiền xử lý, kiểm chứng và xuất nhãn (chỉ dùng thư viện chuẩn)
-├── tests/                    # kiểm thử offline (42 test)
+├── tests/                    # kiểm thử offline (54 test)
 ├── data/                     # dữ liệu crawl/đã xử lý (JSONL không đưa lên Git, xem bên dưới)
 ├── DATA_QUALITY_PROTOCOL.md  # quy trình chất lượng dữ liệu trước khi train
 ├── REVIEW_AND_UPGRADES.md    # nhật ký rà soát và sửa notebook
@@ -90,6 +90,7 @@ Văn bản bài báo đã crawl (`data/**/*.jsonl`) không được commit vì r
 
 ```bash
 python -m unittest discover -s tests -v
+ruff check .
 ```
 
 ## Checkpoint models

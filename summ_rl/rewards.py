@@ -24,6 +24,18 @@ class RewardConfig:
     degenerate_reward: float = -1.0
     rouge_weights: tuple = (0.3, 0.3, 0.4)  # ROUGE-1, ROUGE-2, ROUGE-L
 
+    def __post_init__(self):
+        if not 0 < self.min_ratio < self.max_ratio:
+            raise ValueError(f'Need 0 < min_ratio < max_ratio (got {self.min_ratio}, {self.max_ratio})')
+        if self.min_words < 0:
+            raise ValueError('min_words must be >= 0')
+        if len(self.rouge_weights) != 3:
+            raise ValueError('rouge_weights needs three values: ROUGE-1, ROUGE-2, ROUGE-L')
+        weights = (self.w_quality, self.w_number, self.w_length, self.w_distinct, self.w_halluc,
+                   self.halluc_hard_penalty, *self.rouge_weights)
+        if any(w < 0 for w in weights):
+            raise ValueError('Reward weights and penalties must be non-negative')
+
 
 def length_ratio(source, pred):
     return len(str(pred).split()) / max(len(str(source).split()), 1)
@@ -50,7 +62,8 @@ def reward_breakdown(source, pred, gold, cfg=None):
     cfg = cfg or RewardConfig()
     pred = str(pred or '')
     if len(pred.split()) < cfg.min_words:
-        return dict(reward=cfg.degenerate_reward, quality=0., rouge1=0., rouge2=0., rougeL=0., number_recall=0.,
+        # Too short to judge: fixed penalty, all component scores zero (hallucination 0 keeps averages honest).
+        return dict(reward=float(cfg.degenerate_reward), quality=0., rouge1=0., rouge2=0., rougeL=0., number_recall=0.,
                     hallucination=0., length_score=0., distinct3=0., length_ratio=length_ratio(source, pred))
     scores = rouge_scores(pred, gold)
     w1, w2, wl = cfg.rouge_weights
