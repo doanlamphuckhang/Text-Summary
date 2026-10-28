@@ -47,8 +47,9 @@ Hệ thống được triển khai theo hướng thực nghiệm nhiều giai đ
 │   └── gradio_comparision/
 │       ├── gradio_compare_stage2_vit5_vs_bartpho.ipynb
 │       └── gradio_compare_stage3_ppo_vs_stage2_sft.ipynb
+├── summ_rl/                  # lõi RL v2 (group-relative PPO), reward, ROUGE; có test offline
 ├── scripts/                  # crawl, tiền xử lý, kiểm chứng và xuất nhãn (chỉ dùng thư viện chuẩn)
-├── tests/                    # kiểm thử offline (28 test)
+├── tests/                    # kiểm thử offline (42 test)
 ├── data/                     # dữ liệu crawl/đã xử lý (JSONL không đưa lên Git, xem bên dưới)
 ├── DATA_QUALITY_PROTOCOL.md  # quy trình chất lượng dữ liệu trước khi train
 ├── REVIEW_AND_UPGRADES.md    # nhật ký rà soát và sửa notebook
@@ -75,7 +76,13 @@ python scripts/build_health_review.py data/health_multisource_prepared_v1
 
 # 4. Chỉ xuất các nhãn đã được người duyệt (kiểm hash, người duyệt, tỷ lệ 20-25%, số liệu)
 python scripts/export_reviewed_splits.py --prepared data/health_multisource_prepared_v1     --annotations health-reviewed-annotations.jsonl --output data/health_multisource_reviewed_v1
+
+# 5. Dữ liệu sẵn sàng cho notebook: làm sạch, cắt theo cửa sổ đầu vào, vẽ lại nhãn nháp (xem TRAINING_PLAN.md)
+python scripts/build_training_data.py --prepared data/health_multisource_prepared_v1 --output data/health_training_v1
+python scripts/check_token_lengths.py --tokenizer <checkpoint_vit5> --data data/health_training_v1
 ```
+
+RL Stage 3 v2 (`summ_rl/`, notebook `stage3_vit5_RL_v2_grpo.ipynb`) và ước tính thời gian train từng notebook nằm trong [TRAINING_PLAN.md](TRAINING_PLAN.md).
 
 Trạng thái hiện tại: bản `health_multisource_prepared_v1` giữ 995/1000 bài (train 795, val 100, test 100; 993 nhóm độc lập), **0 nhãn được người duyệt, chưa sẵn sàng train**. Nhãn nháp là `extractive_pseudo`, không dùng điểm trên chúng để kết luận chất lượng.
 

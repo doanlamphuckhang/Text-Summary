@@ -1,0 +1,33 @@
+{
+  "prepared": "data\\health_multisource_prepared_v1",
+  "max_source_words": 600,
+  "input_records": 995,
+  "kept": 993,
+  "dropped": {
+    "bad_draft_length_or_short_source": 2
+  },
+  "split_counts": {
+    "train": 793,
+    "val": 100,
+    "test": 100
+  },
+  "truncated_fraction": 0.897,
+  "src_words": {
+    "mean": 573.9,
+    "median": 587
+  },
+  "length_ratio": {
+    "mean": 0.2256
+  },
+  "sapo_agreement_old_draft_full_source": {
+    "rouge1": 17.13,
+    "rougeL": 11.76,
+    "n": 993
+  },
+  "sapo_agreement_new_draft": {
+    "rouge1": 21.56,
+    "rougeL": 15.17,
+    "n": 993
+  },
+  "note": "Agreement with the publisher sapo is a weak proxy, not summary quality. Labels are unreviewed; confirm the word-to-token ratio with check_token_lengths.py before relying on max_source_words."
+}
