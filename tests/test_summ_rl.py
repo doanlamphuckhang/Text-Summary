@@ -161,6 +161,20 @@ class TrainerTests(unittest.TestCase):
                                         max_input_len=40, max_new_tokens=8, min_new_tokens=1, use_amp=False)
             self.assertEqual(metrics['n'], 2)
 
+    def test_resume_reproduces_uninterrupted_run(self):
+        kwargs = dict(eval_every=100, eval_kwargs=dict(num_beams=1, batch_size=4), log=lambda *_: None, save_every=2)
+        with tempfile.TemporaryDirectory() as tmp:
+            full_model, full = self.make(lr=1e-3)
+            full.train(ROWS[:6], ROWS[6:10], steps=4, out_dir=Path(tmp) / 'a', **kwargs)
+            resumed_model, resumed = self.make(lr=1e-3)
+            history, _ = resumed.train(ROWS[:6], ROWS[6:10], steps=4, out_dir=Path(tmp) / 'a', resume=True, **kwargs)
+            self.assertEqual([h['step'] for h in history], [1, 2, 3, 4])
+            self.assertEqual(len((Path(tmp) / 'a' / 'rl_steps.jsonl').read_text().splitlines()), 4)
+            for key, value in full_model.state_dict().items():
+                self.assertTrue(torch.allclose(value, resumed_model.state_dict()[key], atol=1e-6), key)
+            with self.assertRaises(FileExistsError):
+                self.make(lr=1e-3)[1].train(ROWS[:6], ROWS[6:10], steps=1, out_dir=Path(tmp) / 'a', **kwargs)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -264,19 +264,54 @@ class GroupRLTrainer:
             (directory / 'best_meta.json').write_text(json.dumps(meta, ensure_ascii=False, indent=2, allow_nan=False), encoding='utf-8')
         return directory
 
+    def save_state(self, path, **extra):
+        """Atomic full training state (weights, optimizer, schedule, data order) for Colab disconnects."""
+        path = Path(path)
+        tmp = path.with_suffix('.tmp')
+        torch.save(dict(model=self.model.state_dict(), optimizer=self.optimizer.state_dict(),
+                        kl_coef=self.kl_coef, updates=self.updates, torch_rng=torch.get_rng_state(),
+                        cuda_rng=torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None, **extra), tmp)
+        tmp.replace(path)
+
+    def load_state(self, path):
+        state = torch.load(path, map_location=self.device, weights_only=False)
+        self.model.load_state_dict(state.pop('model'))
+        self.optimizer.load_state_dict(state.pop('optimizer'))
+        self.kl_coef, self.updates = state.pop('kl_coef'), state.pop('updates')
+        torch.set_rng_state(state.pop('torch_rng').cpu())
+        cuda_rng = state.pop('cuda_rng')
+        if cuda_rng is not None and torch.cuda.is_available():
+            torch.cuda.set_rng_state_all([s.cpu() for s in cuda_rng])
+        return state
+
     def train(self, train_rows, val_rows, steps, out_dir, eval_every=20, eval_kwargs=None, max_halluc_increase=1.0,
-              log=print, should_stop=None):
-        """Run RL; returns (history, best_meta). The SFT baseline is evaluated and saved first."""
+              log=print, should_stop=None, save_every=25, resume=False):
+        """Run RL; returns (history, best_meta). The SFT baseline is evaluated and saved first.
+
+        With resume=True an interrupted run continues from `resume_state.pt` in out_dir (written every
+        `save_every` steps); the same data order, optimizer state and best checkpoint are restored."""
         cfg, out_dir = self.cfg, Path(out_dir)
         out_dir.mkdir(parents=True, exist_ok=True)
         eval_kwargs = dict(max_input_len=cfg.max_input_len, max_new_tokens=cfg.max_new_tokens,
                            min_new_tokens=cfg.min_new_tokens, use_amp=cfg.use_amp, **(eval_kwargs or {}))
-        base, _ = evaluate_model(self.model, self.tokenizer, val_rows, self.device, self.reward_cfg, **eval_kwargs)
-        best = dict(step=0, selection='SFT baseline', **base)
-        self.save(out_dir / 'best_model', best)
-        log(f'baseline: {json.dumps(base)}')
+        state_path, first_step = out_dir / 'resume_state.pt', 1
         rng, queue, history = random.Random(cfg.seed), [], []
-        for step in range(1, steps + 1):
+        if resume and state_path.exists():
+            saved = self.load_state(state_path)
+            base, best, queue, history = saved['base'], saved['best'], saved['queue'], saved['history']
+            rng.setstate(saved['rng'])
+            first_step = saved['step'] + 1
+            lines = [json.dumps(h, ensure_ascii=False, allow_nan=False) for h in history]
+            (out_dir / 'rl_steps.jsonl').write_text(''.join(line + chr(10) for line in lines), encoding='utf-8')
+            log(f'resumed after step {saved["step"]} (best so far: step {best["step"]}, reward {best["reward"]:.4f})')
+        else:
+            if (out_dir / 'rl_steps.jsonl').exists():
+                raise FileExistsError('out_dir already holds a run; use a fresh directory or resume=True')
+            base, _ = evaluate_model(self.model, self.tokenizer, val_rows, self.device, self.reward_cfg, **eval_kwargs)
+            best = dict(step=0, selection='SFT baseline', **base)
+            self.save(out_dir / 'best_model', best)
+            log(f'baseline: {json.dumps(base)}')
+        for step in range(first_step, steps + 1):
             if should_stop and should_stop():
                 log('stop requested')
                 break
@@ -305,5 +340,7 @@ class GroupRLTrainer:
             if stats['diverged']:
                 log('KL exceeded kl_abort; stopping and keeping the best checkpoint')
                 break
+            if step % save_every == 0 and step < steps:
+                self.save_state(state_path, base=base, best=best, queue=queue, history=history, rng=rng.getstate(), step=step)
         (out_dir / 'rl_config.json').write_text(json.dumps(dict(rl=asdict(cfg), reward=asdict(self.reward_cfg)), indent=2), encoding='utf-8')
         return history, best
